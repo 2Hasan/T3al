@@ -35,4 +35,12 @@ return [
         ],
     ],
 
+    'google_wallet' => [
+        /*
+         * Google fetches the program logo itself, so it must be a public HTTPS URL.
+         * When empty, the bundled public/wallet/logo.png is used if APP_URL is HTTPS.
+         */
+        'logo_url' => env('GOOGLE_WALLET_LOGO_URL'),
+    ],
+
 ];

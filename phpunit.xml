@@ -35,5 +35,8 @@
         <env name="PULSE_ENABLED" value="false"/>
         <env name="TELESCOPE_ENABLED" value="false"/>
         <env name="NIGHTWATCH_ENABLED" value="false"/>
+        <env name="MOBILE_PASS_APPLE_ORGANIZATION_NAME" value="T3al Test"/>
+        <env name="MOBILE_PASS_APPLE_TYPE_IDENTIFIER" value="pass.app.t3al.test"/>
+        <env name="MOBILE_PASS_APPLE_TEAM_IDENTIFIER" value="TEAMID1234"/>
     </php>
 </phpunit>

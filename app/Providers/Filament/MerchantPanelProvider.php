@@ -2,6 +2,9 @@
 
 namespace App\Providers\Filament;
 
+use App\Filament\Pages\Tenancy\RegisterMerchant;
+use App\Filament\Widgets\LoyaltyStats;
+use App\Models\Merchant;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
@@ -32,8 +35,16 @@ class MerchantPanelProvider extends PanelProvider
             ->domain(config('t3al.domains.panel') ?: null)
             ->brandName('T3al')
             ->login()
+            ->registration()
+            ->passwordReset()
+            ->profile()
+            ->tenant(Merchant::class, slugAttribute: 'slug')
+            ->tenantRegistration(RegisterMerchant::class)
             ->colors(['primary' => Color::Amber])
+            ->discoverResources(in: app_path('Filament/Resources'), for: 'App\Filament\Resources')
+            ->discoverPages(in: app_path('Filament/Pages'), for: 'App\Filament\Pages')
             ->pages([Dashboard::class])
+            ->widgets([LoyaltyStats::class])
             ->middleware([
                 EncryptCookies::class,
                 AddQueuedCookiesToResponse::class,
