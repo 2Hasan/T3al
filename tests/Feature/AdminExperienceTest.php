@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use App\Enums\MerchantStatus;
 use App\Filament\Admin\Resources\Merchants\MerchantResource;
 use App\Filament\Admin\Resources\Merchants\Pages\ViewMerchant;
+use App\Filament\Admin\Resources\Plans\Pages\ManagePlans;
 use App\Filament\Admin\Widgets\PlatformStats;
 use App\Models\Merchant;
 use App\Models\Plan;
@@ -34,6 +35,17 @@ class AdminExperienceTest extends TestCase
         $shop->branches()->createMany(array_map(fn (int $i) => ['name' => "Branch {$i}"], range(1, $branches)));
 
         return $shop;
+    }
+
+    public function test_the_plans_list_renders_the_feature_count_for_each_plan(): void
+    {
+        $this->actingAs($this->admin());
+        $plan = Plan::factory()->create(['features' => ['loyalty_cards', 'cashier_scan', 'apple_wallet']]);
+
+        Livewire::test(ManagePlans::class)
+            ->assertOk()
+            ->assertSee($plan->name)
+            ->assertSee('3 '.__('app.features_count'));
     }
 
     public function test_the_dashboard_totals_the_monthly_revenue_from_active_shops_only(): void

@@ -91,7 +91,7 @@ class PlanResource extends Resource
                     ->formatStateUsing(fn (string $state): string => number_format((float) $state, 3).' BHD'),
                 TextColumn::make('features')
                     ->label(__('app.plan_features'))
-                    ->formatStateUsing(fn (?array $state): string => count($state ?? []).' '.__('app.features_count')),
+                    ->state(fn (Plan $record): string => count($record->features ?? []).' '.__('app.features_count')),
                 TextColumn::make('merchants_count')->label(__('app.shops'))->counts('merchants'),
                 IconColumn::make('is_active')->label(__('app.active'))->boolean(),
             ])

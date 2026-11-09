@@ -107,4 +107,16 @@ html[dir='rtl'] {
         min-height: 2.75rem;
         min-width: 2.75rem;
     }
+
+    /* Brand link in the topbar, table row actions (Edit, View) and table column sort buttons. */
+    .fi-topbar a,
+    a:has(> .fi-logo),
+    .fi-ta-actions a.fi-link,
+    .fi-ta-actions button.fi-link,
+    .fi-ta-header-cell-sort-btn {
+        display: inline-flex;
+        align-items: center;
+        min-height: 2.75rem;
+        min-width: 2.75rem;
+    }
 }
