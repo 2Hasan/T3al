@@ -4,8 +4,10 @@ namespace App\Models;
 
 use App\Enums\MerchantRole;
 use App\Enums\MerchantStatus;
+use Carbon\Carbon;
 use Database\Factories\MerchantFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -124,13 +126,45 @@ class Merchant extends Model
     /**
      * The monthly bill: every branch at the plan's price per branch.
      */
-    public function monthlyAmount(): string
+    public function monthlyAmount(?int $branches = null): string
     {
         // Work in fils (thousandths of a dinar) so money never goes through floating point.
         $filsPerBranch = (int) round(((float) ($this->plan?->price_per_branch ?? 0)) * 1000);
-        $fils = $filsPerBranch * max(1, $this->branches()->count());
+        $count = $branches ?? $this->branches()->count();
+        $fils = $filsPerBranch * max(1, $count);
 
         return number_format($fils / 1000, 3, '.', '');
+    }
+
+    /**
+     * The date the current period ends: the trial end while on trial, otherwise the paid end.
+     */
+    public function periodEndsAt(): ?Carbon
+    {
+        $end = $this->status === MerchantStatus::Trial ? $this->trial_ends_at : $this->paid_until;
+
+        return $end ?? $this->paid_until ?? $this->trial_ends_at;
+    }
+
+    public function daysLeft(): ?int
+    {
+        $end = $this->periodEndsAt();
+
+        return $end === null ? null : (int) now()->startOfDay()->diffInDays($end->copy()->startOfDay(), false);
+    }
+
+    /**
+     * @param  Builder<Merchant>  $query
+     * @return Builder<Merchant>
+     */
+    public function scopeEndingWithin(Builder $query, int $days): Builder
+    {
+        return $query
+            ->where('status', '!=', MerchantStatus::Suspended->value)
+            ->where(function (Builder $query) use ($days) {
+                $query->whereBetween('trial_ends_at', [now(), now()->addDays($days)])
+                    ->orWhereBetween('paid_until', [now(), now()->addDays($days)]);
+            });
     }
 
     public function hasFeature(string $feature): bool

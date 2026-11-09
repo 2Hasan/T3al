@@ -5,7 +5,7 @@ namespace Tests\Feature;
 use App\Actions\RecordPayment;
 use App\Actions\SuspendExpiredMerchants;
 use App\Enums\MerchantStatus;
-use App\Filament\Admin\Resources\Merchants\Pages\ManageMerchants;
+use App\Filament\Admin\Resources\Merchants\Pages\ListMerchants;
 use App\Models\Merchant;
 use App\Models\Payment;
 use App\Models\Plan;
@@ -89,7 +89,7 @@ class BillingTest extends TestCase
         $this->actingAs($admin);
         Filament::setCurrentPanel(Filament::getPanel('admin'));
 
-        Livewire::test(ManageMerchants::class)
+        Livewire::test(ListMerchants::class)
             ->callTableAction('recordPayment', $merchant, [
                 'months' => 1,
                 'amount' => '3.000',

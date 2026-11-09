@@ -3,9 +3,9 @@
 namespace App\Filament\Admin\Resources\Merchants\Pages;
 
 use App\Filament\Admin\Resources\Merchants\MerchantResource;
-use Filament\Resources\Pages\ManageRecords;
+use Filament\Resources\Pages\ListRecords;
 
-class ManageMerchants extends ManageRecords
+class ListMerchants extends ListRecords
 {
     protected static string $resource = MerchantResource::class;
 }
