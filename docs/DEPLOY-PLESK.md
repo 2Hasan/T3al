@@ -70,7 +70,7 @@ This runs `merchants:suspend-expired` daily at 00:05, which suspends shops whose
 
 ## 7. Smoke test
 
-- `https://7assan.dev/` loads in Arabic, and `?` switches to English through the language link.
+- `https://7assan.dev/` loads in Arabic, and the language switch shows it in English.
 - `https://7assan.dev/c/{code}` shows a customer card.
 - `https://panel.7assan.dev/app/login` signs in a shop owner.
 - `https://admin.7assan.dev/admin/login` signs in the admin.
