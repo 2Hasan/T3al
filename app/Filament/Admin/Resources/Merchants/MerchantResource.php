@@ -165,8 +165,9 @@ class MerchantResource extends Resource
                     ->label(__('app.plan'))
                     ->badge()
                     ->color('gray')
-                    ->placeholder(__('app.no_plan')),
-                TextColumn::make('branches_count')->label(__('app.branches'))->alignCenter(),
+                    ->placeholder(__('app.no_plan'))
+                    ->visibleFrom('md'),
+                TextColumn::make('branches_count')->label(__('app.branches'))->alignCenter()->visibleFrom('md'),
                 TextColumn::make('monthly_amount')
                     ->label(__('app.monthly_amount'))
                     ->state(fn (Merchant $record): string => $record->monthlyAmount($record->branches_count).' BHD'),
@@ -184,7 +185,8 @@ class MerchantResource extends Resource
                     ->state(fn (Merchant $record): ?Carbon => $record->periodEndsAt())
                     ->date()
                     ->placeholder('—')
-                    ->description(fn (Merchant $record): ?string => self::daysLabel($record)),
+                    ->description(fn (Merchant $record): ?string => self::daysLabel($record))
+                    ->visibleFrom('md'),
             ])
             ->filters([
                 SelectFilter::make('status')

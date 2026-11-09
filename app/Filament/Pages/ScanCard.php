@@ -36,6 +36,11 @@ class ScanCard extends Page
         return Filament::getTenant()?->isOperational() ?? false;
     }
 
+    public function getTitle(): string
+    {
+        return __('app.scan_card');
+    }
+
     public static function getNavigationLabel(): string
     {
         return __('app.scan_card');

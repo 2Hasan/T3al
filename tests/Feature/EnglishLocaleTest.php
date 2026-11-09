@@ -30,6 +30,17 @@ class EnglishLocaleTest extends TestCase
             ->assertDontSee('أضف إلى Apple Wallet', false);
     }
 
+    public function test_the_card_page_is_left_to_right_in_english(): void
+    {
+        $card = LoyaltyCard::factory()->create();
+
+        $this->get('/locale/en');
+
+        $this->get(route('cards.show', $card))
+            ->assertSee('dir="ltr"', false)
+            ->assertSee('lang="en"', false);
+    }
+
     public function test_the_card_page_stays_in_arabic_by_default(): void
     {
         $card = LoyaltyCard::factory()->create();

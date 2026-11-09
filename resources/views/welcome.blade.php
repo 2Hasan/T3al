@@ -12,9 +12,9 @@
             <span class="text-2xl font-extrabold text-brand">T3al</span>
             <nav class="flex items-center gap-4 text-sm">
                 @if (app()->getLocale() === 'ar')
-                    <a href="{{ route('locale.switch', 'en') }}" class="text-ink/70 hover:text-ink">English</a>
+                    <a href="{{ route('locale.switch', 'en') }}" class="inline-flex min-h-11 items-center px-2 text-ink/70 hover:text-ink">English</a>
                 @else
-                    <a href="{{ route('locale.switch', 'ar') }}" class="text-ink/70 hover:text-ink">العربية</a>
+                    <a href="{{ route('locale.switch', 'ar') }}" class="inline-flex min-h-11 items-center px-2 text-ink/70 hover:text-ink">العربية</a>
                 @endif
             </nav>
         </header>
