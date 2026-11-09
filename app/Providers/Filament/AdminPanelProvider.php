@@ -2,6 +2,8 @@
 
 namespace App\Providers\Filament;
 
+use App\Support\Brand;
+use Filament\FontProviders\GoogleFontProvider;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
@@ -9,7 +11,6 @@ use Filament\Http\Middleware\DispatchServingFilamentEvent;
 use Filament\Pages\Dashboard;
 use Filament\Panel;
 use Filament\PanelProvider;
-use Filament\Support\Colors\Color;
 use Filament\Widgets\AccountWidget;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Illuminate\Cookie\Middleware\EncryptCookies;
@@ -30,8 +31,10 @@ class AdminPanelProvider extends PanelProvider
             ->path('admin')
             ->domain(config('t3al.domains.admin') ?: null)
             ->brandName('T3al Admin')
+            ->font('Inter', url: Brand::FONTS_URL, provider: GoogleFontProvider::class)
+            ->viteTheme('resources/css/filament/theme.css')
             ->login()
-            ->colors(['primary' => Color::Slate])
+            ->colors(['primary' => Brand::PANEL_PRIMARY, 'danger' => Brand::PANEL_DANGER])
             ->widgets([AccountWidget::class])
             ->discoverResources(in: app_path('Filament/Admin/Resources'), for: 'App\Filament\Admin\Resources')
             ->discoverWidgets(in: app_path('Filament/Admin/Widgets'), for: 'App\Filament\Admin\Widgets')

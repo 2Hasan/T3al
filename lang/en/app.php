@@ -202,4 +202,7 @@ return [
     'final_title' => 'Bring your customers back',
     'footer_tagline' => 'Come back, we\'ll reward you.',
     'footer_rights' => 'All rights reserved',
+    'skip_to_content' => 'Skip to content',
+    'stamp_collected' => 'Stamp collected',
+    'stamp_empty' => 'Stamp not collected yet',
 ];

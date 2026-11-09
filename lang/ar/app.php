@@ -202,4 +202,7 @@ return [
     'final_title' => 'خلّ زبائنك يرجعون لك',
     'footer_tagline' => 'تعال، ترجّع.',
     'footer_rights' => 'جميع الحقوق محفوظة',
+    'skip_to_content' => 'تخطّي إلى المحتوى',
+    'stamp_collected' => 'ختم مُضاف',
+    'stamp_empty' => 'ختم لم يُضف بعد',
 ];

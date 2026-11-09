@@ -1,0 +1,110 @@
+@import '../../../vendor/filament/filament/resources/css/theme.css';
+@import '../brand-tokens.css';
+
+@source '../../../app/Filament';
+@source '../../../resources/views/filament';
+
+/*
+ * Filament sets --font-family on :root. This selector has higher specificity,
+ * so the Arabic panel uses Tajawal and the English panel keeps Inter.
+ */
+html[dir='rtl'] {
+    --font-family: 'Tajawal', ui-sans-serif, system-ui, sans-serif;
+}
+
+/*
+ * Filled primary buttons: brand amber fill with ink labels (8.1:1) in both modes.
+ * Filament's colour classes set --bg and --text (light) and --dark-bg and
+ * --dark-text (dark) on the button itself. These rules are more specific than
+ * those classes, and the hover rule sets the text variables too, because
+ * Filament's hover classes would otherwise change the label colour.
+ */
+.fi-btn.fi-color-primary:not(.fi-outlined) {
+    --bg: var(--primary-500);
+    --text: var(--color-ink);
+    --dark-bg: var(--primary-500);
+    --dark-text: var(--color-ink);
+}
+
+.fi-btn.fi-color-primary:not(.fi-outlined):hover {
+    --bg: var(--primary-400);
+    --text: var(--color-ink);
+    --dark-bg: var(--primary-400);
+    --dark-text: var(--color-ink);
+}
+
+/* Filled danger buttons: brand red with white labels (6.5:1) in both modes. */
+.fi-btn.fi-color-danger:not(.fi-outlined) {
+    --dark-bg: var(--danger-600);
+    --dark-text: oklch(100% 0 0);
+}
+
+.fi-btn.fi-color-danger:not(.fi-outlined):hover {
+    --bg: var(--danger-700);
+    --text: oklch(100% 0 0);
+    --dark-bg: var(--danger-700);
+    --dark-text: oklch(100% 0 0);
+}
+
+/*
+ * Motion rule: only transform and opacity animate. These Filament control
+ * classes list colour properties in their transition-property, so the list is
+ * reset here. Other Filament classes are not restyled by this design.
+ */
+.fi-btn,
+.fi-icon-btn,
+.fi-input-wrp,
+.fi-badge .fi-badge-delete-btn,
+.fi-breadcrumbs ol li a,
+.fi-dropdown-list-item,
+.fi-global-search-result,
+.fi-pagination-item-btn,
+.fi-sidebar-item-btn,
+.fi-sidebar-group-dropdown-trigger-btn,
+.fi-sidebar-database-notifications-btn,
+.fi-sidebar .fi-user-menu-trigger,
+.fi-tabs-item,
+.fi-tabs-item .fi-tabs-item-label,
+.fi-topbar-item-btn,
+.fi-user-menu-trigger {
+    transition-property: transform, opacity;
+}
+
+/* Modern surfaces, shared by both panels. Sections get a larger radius and a soft shadow. */
+.fi-section {
+    border-radius: 1.25rem;
+    box-shadow: 0 0 0 1px rgb(28 25 23 / 0.08), 0 12px 32px -20px rgb(28 25 23 / 0.35);
+}
+
+.dark .fi-section {
+    box-shadow: 0 0 0 1px rgb(255 255 255 / 0.1), 0 12px 32px -20px rgb(0 0 0 / 0.6);
+}
+
+.fi-ta-ctn,
+.fi-wi-stats-overview-stat {
+    border-radius: 1.25rem;
+}
+
+.fi-topbar {
+    box-shadow: 0 1px 0 rgb(28 25 23 / 0.06);
+}
+
+/*
+ * 44px minimum tap targets on phones, for the controls Filament renders:
+ * topbar and user menu, the sidebar toggle and sidebar items, the sidebar
+ * group headings and their collapse controls, icon buttons, buttons and inputs.
+ */
+@media (max-width: 40rem) {
+    .fi-btn,
+    .fi-input,
+    .fi-icon-btn,
+    .fi-topbar-item-btn,
+    .fi-user-menu-trigger,
+    .fi-sidebar-item-btn,
+    .fi-sidebar-group-btn,
+    .fi-sidebar-group-collapse-btn,
+    .fi-sidebar-group-dropdown-trigger-btn {
+        min-height: 2.75rem;
+        min-width: 2.75rem;
+    }
+}

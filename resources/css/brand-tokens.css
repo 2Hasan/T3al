@@ -1,0 +1,31 @@
+@theme {
+    --color-brand: #F59E0B;
+    --color-ink: #1C1917;
+    --color-ink-soft: #57534E;
+    --color-cream: #FAF7F2;
+    --color-teal: #0F766E;
+    --color-danger: #B91C1C;
+
+    --font-sans: 'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+    --font-arabic: 'Tajawal', ui-sans-serif, system-ui, sans-serif;
+
+    --animate-stamp: stamp 520ms cubic-bezier(0.2, 0.9, 0.3, 1.4) both;
+    --animate-float: float 6s ease-in-out infinite;
+    --animate-pop: pop 600ms cubic-bezier(0.2, 0.9, 0.3, 1.3) both;
+
+    @keyframes stamp {
+        0% { transform: scale(1.6) rotate(-12deg); opacity: 0; }
+        60% { transform: scale(0.92) rotate(2deg); opacity: 1; }
+        100% { transform: scale(1) rotate(0); opacity: 1; }
+    }
+
+    @keyframes float {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-8px); }
+    }
+
+    @keyframes pop {
+        from { opacity: 0; transform: translateY(12px) scale(0.9); }
+        to { opacity: 1; transform: none; }
+    }
+}
