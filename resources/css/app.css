@@ -1,0 +1,19 @@
+@import 'tailwindcss';
+
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+@source '../../storage/framework/views/*.php';
+@source '../views';
+
+@theme {
+    --color-brand: #F59E0B;
+    --color-ink: #1C1917;
+    --color-cream: #FAF7F2;
+    --color-teal: #0F766E;
+    --color-danger: #B91C1C;
+
+    --font-sans: 'Inter', 'Tajawal', system-ui, -apple-system, 'Segoe UI', sans-serif;
+}
+
+html[dir='rtl'] {
+    font-family: 'Tajawal', 'Inter', system-ui, sans-serif;
+}
