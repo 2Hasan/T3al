@@ -4,6 +4,7 @@ namespace App\Filament\Pages\Tenancy;
 
 use App\Enums\MerchantRole;
 use App\Models\Merchant;
+use App\Models\Plan;
 use Filament\Forms\Components\TextInput;
 use Filament\Pages\Tenancy\RegisterTenant;
 use Filament\Schemas\Schema;
@@ -47,7 +48,10 @@ class RegisterMerchant extends RegisterTenant
                 'name' => $data['name'],
                 'slug' => $this->uniqueSlug($data['name']),
                 'trial_ends_at' => now()->addDays(14),
+                'plan_id' => Plan::query()->where('is_active', true)->orderBy('sort_order')->value('id'),
             ]);
+
+            $merchant->branches()->create(['name' => $data['name']]);
 
             $merchant->users()->attach(auth()->id(), ['role' => MerchantRole::Owner->value]);
 

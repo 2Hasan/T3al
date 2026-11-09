@@ -31,6 +31,11 @@ class ScanCard extends Page
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedQrCode;
 
+    public static function canAccess(): bool
+    {
+        return Filament::getTenant()?->isOperational() ?? false;
+    }
+
     public static function getNavigationLabel(): string
     {
         return __('app.scan_card');

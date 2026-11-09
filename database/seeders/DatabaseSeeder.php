@@ -6,6 +6,7 @@ use App\Actions\AddStamp;
 use App\Actions\IssueLoyaltyCard;
 use App\Enums\MerchantRole;
 use App\Models\Merchant;
+use App\Models\Plan;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -23,7 +24,25 @@ class DatabaseSeeder extends Seeder
         $owner = User::factory()->create(['name' => 'صاحب المقهى', 'email' => 'owner@example.com']);
         $cashier = User::factory()->create(['name' => 'الكاشير', 'email' => 'cashier@example.com']);
 
-        $merchant = Merchant::factory()->create(['name' => 'مقهى السيف', 'slug' => 'seef-cafe']);
+        $plan = Plan::query()->create([
+            'name' => 'Basic',
+            'slug' => 'basic',
+            'price_per_branch' => '3.000',
+            'features' => ['loyalty_cards', 'cashier_scan', 'apple_wallet', 'google_wallet'],
+            'is_active' => true,
+            'sort_order' => 1,
+        ]);
+
+        User::factory()->create(['name' => 'T3al Admin', 'email' => 'admin@t3al.app', 'is_admin' => true]);
+
+        $merchant = Merchant::factory()->create([
+            'name' => 'مقهى السيف',
+            'slug' => 'seef-cafe',
+            'plan_id' => $plan->id,
+            'status' => 'active',
+            'paid_until' => now()->addMonth(),
+        ]);
+        $merchant->branches()->create(['name' => 'الفرع الرئيسي']);
         $merchant->users()->attach($owner, ['role' => MerchantRole::Owner->value]);
         $merchant->users()->attach($cashier, ['role' => MerchantRole::Staff->value]);
 

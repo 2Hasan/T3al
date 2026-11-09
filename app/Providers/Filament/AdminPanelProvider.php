@@ -31,6 +31,7 @@ class AdminPanelProvider extends PanelProvider
             ->brandName('T3al Admin')
             ->login()
             ->colors(['primary' => Color::Slate])
+            ->discoverResources(in: app_path('Filament/Admin/Resources'), for: 'App\Filament\Admin\Resources')
             ->pages([Dashboard::class])
             ->middleware([
                 EncryptCookies::class,
