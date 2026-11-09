@@ -18,7 +18,7 @@ class RegisterMerchant extends RegisterTenant
 {
     public static function getLabel(): string
     {
-        return 'سجّل محلك';
+        return __('app.register_shop');
     }
 
     public function form(Schema $schema): Schema
@@ -26,12 +26,12 @@ class RegisterMerchant extends RegisterTenant
         return $schema
             ->components([
                 TextInput::make('name')
-                    ->label('اسم المحل')
+                    ->label(__('app.shop_name'))
                     ->required()
                     ->maxLength(60),
                 TextInput::make('reward_label')
-                    ->label('المكافأة بعد 10 أختام')
-                    ->placeholder('قهوة مجانية')
+                    ->label(__('app.reward_after_10'))
+                    ->placeholder(__('app.free_coffee'))
                     ->required()
                     ->maxLength(40),
             ]);
@@ -52,7 +52,7 @@ class RegisterMerchant extends RegisterTenant
             $merchant->users()->attach(auth()->id(), ['role' => MerchantRole::Owner->value]);
 
             $merchant->loyaltyPrograms()->create([
-                'name' => 'بطاقة '.$data['name'],
+                'name' => __('app.card_prefix').$data['name'],
                 'reward_label' => $data['reward_label'],
                 'stamps_required' => 10,
             ]);

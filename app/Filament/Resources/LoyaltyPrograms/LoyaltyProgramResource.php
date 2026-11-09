@@ -28,9 +28,15 @@ class LoyaltyProgramResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedCreditCard;
 
-    protected static ?string $modelLabel = 'بطاقة ولاء';
+    public static function getModelLabel(): string
+    {
+        return __('app.loyalty_card');
+    }
 
-    protected static ?string $pluralModelLabel = 'بطاقات الولاء';
+    public static function getPluralModelLabel(): string
+    {
+        return __('app.loyalty_cards');
+    }
 
     protected static ?int $navigationSort = 2;
 
@@ -38,21 +44,21 @@ class LoyaltyProgramResource extends Resource
     {
         return $schema
             ->components([
-                Section::make('البطاقة')
+                Section::make(__('app.card'))
                     ->columns(2)
                     ->schema([
                         TextInput::make('name')
-                            ->label('اسم البطاقة')
-                            ->placeholder('بطاقة القهوة')
+                            ->label(__('app.card_name'))
+                            ->placeholder(__('app.coffee_card'))
                             ->required()
                             ->maxLength(60),
                         TextInput::make('reward_label')
-                            ->label('المكافأة')
-                            ->placeholder('قهوة مجانية')
+                            ->label(__('app.reward'))
+                            ->placeholder(__('app.free_coffee'))
                             ->required()
                             ->maxLength(40),
                         TextInput::make('stamps_required')
-                            ->label('عدد الأختام للمكافأة')
+                            ->label(__('app.stamps_required_label'))
                             ->numeric()
                             ->integer()
                             ->minValue(2)
@@ -60,21 +66,21 @@ class LoyaltyProgramResource extends Resource
                             ->default(10)
                             ->required()
                             ->disabledOn('edit')
-                            ->helperText('ما يتغيّر بعد إنشاء البطاقة، عشان ما تتأثر أختام العملاء الحاليين.'),
+                            ->helperText(__('app.stamps_required_helper')),
                         Toggle::make('is_active')
-                            ->label('مفعّلة')
+                            ->label(__('app.active'))
                             ->default(true)
                             ->inline(false),
                     ]),
-                Section::make('الألوان')
+                Section::make(__('app.colors'))
                     ->columns(3)
                     ->schema([
-                        ColorPicker::make('background_color')->label('الخلفية')->default('#3B2416')->required()->extraInputAttributes(['dir' => 'ltr']),
-                        ColorPicker::make('foreground_color')->label('النص')->default('#FFFFFF')->required()->extraInputAttributes(['dir' => 'ltr']),
-                        ColorPicker::make('label_color')->label('العناوين')->default('#E7D7C9')->required()->extraInputAttributes(['dir' => 'ltr']),
+                        ColorPicker::make('background_color')->label(__('app.background'))->default('#3B2416')->required()->extraInputAttributes(['dir' => 'ltr']),
+                        ColorPicker::make('foreground_color')->label(__('app.text'))->default('#FFFFFF')->required()->extraInputAttributes(['dir' => 'ltr']),
+                        ColorPicker::make('label_color')->label(__('app.labels'))->default('#E7D7C9')->required()->extraInputAttributes(['dir' => 'ltr']),
                     ]),
                 Textarea::make('terms')
-                    ->label('الشروط (تظهر خلف البطاقة)')
+                    ->label(__('app.terms_back'))
                     ->rows(3)
                     ->maxLength(500)
                     ->columnSpanFull(),
@@ -86,11 +92,11 @@ class LoyaltyProgramResource extends Resource
         return $table
             ->columns([
                 ColorColumn::make('background_color')->label(''),
-                TextColumn::make('name')->label('البطاقة')->searchable(),
-                TextColumn::make('reward_label')->label('المكافأة'),
-                TextColumn::make('stamps_required')->label('الأختام'),
-                TextColumn::make('loyalty_cards_count')->label('العملاء')->counts('loyaltyCards'),
-                IconColumn::make('is_active')->label('مفعّلة')->boolean(),
+                TextColumn::make('name')->label(__('app.card'))->searchable(),
+                TextColumn::make('reward_label')->label(__('app.reward')),
+                TextColumn::make('stamps_required')->label(__('app.stamps')),
+                TextColumn::make('loyalty_cards_count')->label(__('app.customers'))->counts('loyaltyCards'),
+                IconColumn::make('is_active')->label(__('app.active'))->boolean(),
             ])
             ->recordActions([
                 EditAction::make(),

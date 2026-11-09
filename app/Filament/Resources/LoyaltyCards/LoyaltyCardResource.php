@@ -28,9 +28,15 @@ class LoyaltyCardResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedUsers;
 
-    protected static ?string $modelLabel = 'عميل';
+    public static function getModelLabel(): string
+    {
+        return __('app.customer_singular');
+    }
 
-    protected static ?string $pluralModelLabel = 'العملاء';
+    public static function getPluralModelLabel(): string
+    {
+        return __('app.customers');
+    }
 
     protected static ?int $navigationSort = 3;
 
@@ -62,22 +68,22 @@ class LoyaltyCardResource extends Resource
         return $schema
             ->columns(2)
             ->components([
-                Section::make('العميل')
+                Section::make(__('app.customer'))
                     ->schema([
-                        TextEntry::make('customer.name')->label('الاسم'),
-                        TextEntry::make('customer.phone')->label('الجوال')->formatStateUsing(fn (string $state): HtmlString => static::phoneHtml($state)),
-                        TextEntry::make('loyaltyProgram.name')->label('البطاقة'),
-                        TextEntry::make('code')->label('رقم البطاقة')->copyable(),
+                        TextEntry::make('customer.name')->label(__('app.name')),
+                        TextEntry::make('customer.phone')->label(__('app.phone'))->formatStateUsing(fn (string $state): HtmlString => static::phoneHtml($state)),
+                        TextEntry::make('loyaltyProgram.name')->label(__('app.card')),
+                        TextEntry::make('code')->label(__('app.card_number'))->copyable(),
                     ]),
-                Section::make('الرصيد')
+                Section::make(__('app.balance'))
                     ->schema([
                         TextEntry::make('stamps')
-                            ->label('الأختام الحالية')
+                            ->label(__('app.current_stamps'))
                             ->formatStateUsing(fn (LoyaltyCard $record): string => $record->stamps.' / '.$record->loyaltyProgram->stamps_required),
-                        TextEntry::make('rewards_available')->label('مكافآت متاحة'),
-                        TextEntry::make('lifetime_stamps')->label('مجموع الأختام'),
-                        TextEntry::make('rewards_redeemed')->label('مكافآت مصروفة'),
-                        TextEntry::make('last_visit_at')->label('آخر زيارة')->since()->placeholder('ما زار للحين'),
+                        TextEntry::make('rewards_available')->label(__('app.rewards_available')),
+                        TextEntry::make('lifetime_stamps')->label(__('app.lifetime_stamps')),
+                        TextEntry::make('rewards_redeemed')->label(__('app.rewards_redeemed')),
+                        TextEntry::make('last_visit_at')->label(__('app.last_visit'))->since()->placeholder(__('app.never_visited')),
                     ]),
             ]);
     }
@@ -88,25 +94,25 @@ class LoyaltyCardResource extends Resource
             ->modifyQueryUsing(fn (Builder $query) => $query->with(['customer', 'loyaltyProgram']))
             ->defaultSort('last_visit_at', 'desc')
             ->columns([
-                TextColumn::make('customer.name')->label('الاسم')->searchable(),
+                TextColumn::make('customer.name')->label(__('app.name'))->searchable(),
                 TextColumn::make('customer.phone')
-                    ->label('الجوال')
+                    ->label(__('app.phone'))
                     ->formatStateUsing(fn (string $state): HtmlString => static::phoneHtml($state))
                     ->searchable(query: fn (Builder $query, string $search): Builder => $query->whereRelation('customer', 'phone', 'like', '%'.preg_replace('/\D+/', '', $search).'%')),
                 TextColumn::make('stamps')
-                    ->label('الأختام')
+                    ->label(__('app.stamps'))
                     ->formatStateUsing(fn (LoyaltyCard $record): string => $record->stamps.' / '.$record->loyaltyProgram->stamps_required),
-                TextColumn::make('rewards_available')->label('مكافآت متاحة')->sortable(),
-                TextColumn::make('lifetime_stamps')->label('مجموع الأختام')->sortable(),
-                TextColumn::make('last_visit_at')->label('آخر زيارة')->since()->sortable()->placeholder('—'),
-                TextColumn::make('created_at')->label('انضم')->date()->sortable()->toggleable(isToggledHiddenByDefault: true),
+                TextColumn::make('rewards_available')->label(__('app.rewards_available'))->sortable(),
+                TextColumn::make('lifetime_stamps')->label(__('app.lifetime_stamps'))->sortable(),
+                TextColumn::make('last_visit_at')->label(__('app.last_visit'))->since()->sortable()->placeholder('—'),
+                TextColumn::make('created_at')->label(__('app.joined'))->date()->sortable()->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
                 Filter::make('has_reward')
-                    ->label('عنده مكافأة')
+                    ->label(__('app.has_reward'))
                     ->query(fn (Builder $query) => $query->where('rewards_available', '>', 0)),
                 Filter::make('inactive')
-                    ->label('ما زار من 30 يوم')
+                    ->label(__('app.not_visited_30'))
                     ->query(fn (Builder $query) => $query->where('last_visit_at', '<', now()->subDays(30))),
             ])
             ->recordActions([

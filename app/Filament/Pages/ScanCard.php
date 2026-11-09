@@ -31,9 +31,10 @@ class ScanCard extends Page
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedQrCode;
 
-    protected static ?string $navigationLabel = 'مسح البطاقة';
-
-    protected static ?string $title = 'مسح البطاقة';
+    public static function getNavigationLabel(): string
+    {
+        return __('app.scan_card');
+    }
 
     protected static ?int $navigationSort = 1;
 
@@ -50,25 +51,25 @@ class ScanCard extends Page
     {
         return [
             Action::make('registerCustomer')
-                ->label('عميل جديد')
+                ->label(__('app.new_customer'))
                 ->icon(Heroicon::OutlinedUserPlus)
-                ->modalHeading('تسجيل عميل جديد')
-                ->modalSubmitActionLabel('سجّل وأعطه البطاقة')
+                ->modalHeading(__('app.register_customer'))
+                ->modalSubmitActionLabel(__('app.register_and_give_card'))
                 ->schema([
                     TextInput::make('name')
-                        ->label('اسم العميل')
+                        ->label(__('app.customer_name'))
                         ->required()
                         ->maxLength(60),
                     TextInput::make('phone')
-                        ->label('رقم الجوال')
+                        ->label(__('app.phone_number'))
                         ->tel()
                         ->required()
                         ->maxLength(20)
                         ->extraInputAttributes(['dir' => 'ltr'])
-                        ->placeholder('3XXX XXXX')
+                        ->placeholder(__('app.phone_placeholder'))
                         ->rule(fn (): Closure => function (string $attribute, mixed $value, Closure $fail): void {
                             if (! BahrainPhone::isValid((string) $value)) {
-                                $fail('رقم الجوال غير صحيح. اكتب رقم بحريني من 8 أرقام.');
+                                $fail(__('app.invalid_phone'));
                             }
                         }),
                 ])
@@ -84,8 +85,8 @@ class ScanCard extends Page
 
         if ($program === null) {
             Notification::make()
-                ->title('ما فيه بطاقة ولاء مفعّلة')
-                ->body('صاحب المحل لازم يفعّل بطاقة من صفحة "بطاقات الولاء".')
+                ->title(__('app.no_active_program'))
+                ->body(__('app.owner_must_activate'))
                 ->danger()
                 ->send();
 
@@ -100,8 +101,8 @@ class ScanCard extends Page
         unset($this->card);
 
         Notification::make()
-            ->title($card->wasRecentlyCreated ? 'تم تسجيل العميل' : 'العميل مسجّل من قبل')
-            ->body('خلّ العميل يمسح الكود بكاميرا جواله ويضيف البطاقة للمحفظة.')
+            ->title($card->wasRecentlyCreated ? __('app.customer_registered') : __('app.customer_already_registered'))
+            ->body(__('app.ask_customer_scan'))
             ->success()
             ->send();
     }
@@ -132,7 +133,7 @@ class ScanCard extends Page
         }
 
         if ($card === null) {
-            Notification::make()->title('ما لقينا بطاقة بهذا الرقم')->danger()->send();
+            Notification::make()->title(__('app.card_not_found'))->danger()->send();
 
             return;
         }
@@ -161,13 +162,13 @@ class ScanCard extends Page
         unset($this->card);
 
         if ($card->rewards_available > $rewardsBefore) {
-            Notification::make()->title('🎉 العميل حصل على مكافأة!')->success()->send();
+            Notification::make()->title(__('app.reward_earned'))->success()->send();
 
             return;
         }
 
         Notification::make()
-            ->title($quantity === 1 ? 'تمت إضافة ختم' : "تمت إضافة {$quantity} أختام")
+            ->title($quantity === 1 ? __('app.stamp_added') : __('app.stamps_added_many', ['count' => $quantity]))
             ->success()
             ->send();
     }
@@ -189,7 +190,7 @@ class ScanCard extends Page
         }
 
         unset($this->card);
-        Notification::make()->title('تم صرف المكافأة')->success()->send();
+        Notification::make()->title(__('app.reward_redeemed'))->success()->send();
     }
 
     public function clear(): void
@@ -210,7 +211,11 @@ class ScanCard extends Page
         }
 
         $url = route('cards.show', $card);
-        $message = "أهلاً {$card->customer->name}، هذي بطاقة الولاء حقتك في {$this->merchant()->name}. افتح الرابط وأضفها للمحفظة: {$url}";
+        $message = __('app.customer_whatsapp', [
+            'name' => $card->customer->name,
+            'shop' => $this->merchant()->name,
+            'url' => $url,
+        ]);
 
         return [
             'url' => $url,

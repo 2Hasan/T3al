@@ -8,6 +8,6 @@ class NoRewardAvailable extends RuntimeException
 {
     public function __construct()
     {
-        parent::__construct('ما فيه مكافأة متاحة في هذي البطاقة.');
+        parent::__construct(__('app.no_reward_available'));
     }
 }

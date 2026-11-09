@@ -6,13 +6,13 @@
                     <x-filament::input
                         type="text"
                         wire:model="search"
-                        placeholder="رقم البطاقة أو جوال العميل"
+                        placeholder="{{ __('app.card_or_phone_placeholder') }}"
                         autofocus
                         autocomplete="off"
                     />
                 </x-filament::input.wrapper>
             </div>
-            <x-filament::button type="submit" icon="heroicon-o-magnifying-glass">بحث</x-filament::button>
+            <x-filament::button type="submit" icon="heroicon-o-magnifying-glass">{{ __('app.search') }}</x-filament::button>
         </form>
 
         <div
@@ -20,8 +20,8 @@
             style="margin-top:1rem;"
             wire:ignore
         >
-            <x-filament::button color="gray" icon="heroicon-o-camera" x-on:click="toggle" x-text="running ? 'إيقاف الكاميرا' : 'مسح بالكاميرا'">
-                مسح بالكاميرا
+            <x-filament::button color="gray" icon="heroicon-o-camera" x-on:click="toggle" x-text="running ? '{{ __('app.stop_camera') }}' : '{{ __('app.scan_with_camera') }}'">
+                {{ __('app.scan_with_camera') }}
             </x-filament::button>
             <div id="card-scanner" style="max-width:22rem; margin-top:.75rem;"></div>
             <p x-show="error" x-text="error" style="color:#dc2626; margin-top:.5rem;"></p>
@@ -45,38 +45,38 @@
             </div>
 
             <p style="margin-bottom:1rem;">
-                الأختام: <strong>{{ $card->stamps }} / {{ $program->stamps_required }}</strong>
-                · مكافآت متاحة: <strong>{{ $card->rewards_available }}</strong>
-                · المكافأة: {{ $program->reward_label }}
+                {{ __('app.stamps_label') }}: <strong>{{ $card->stamps }} / {{ $program->stamps_required }}</strong>
+                · {{ __('app.rewards_available_label') }}: <strong>{{ $card->rewards_available }}</strong>
+                · {{ __('app.reward_label') }}: {{ $program->reward_label }}
             </p>
 
             <div style="display:flex; gap:.75rem; flex-wrap:wrap;">
-                <x-filament::button size="xl" icon="heroicon-o-plus-circle" wire:click="addStamp(1)">إضافة ختم</x-filament::button>
+                <x-filament::button size="xl" icon="heroicon-o-plus-circle" wire:click="addStamp(1)">{{ __('app.add_stamp') }}</x-filament::button>
                 <x-filament::button size="xl" color="gray" wire:click="addStamp(2)">+2</x-filament::button>
                 <x-filament::button size="xl" color="success" icon="heroicon-o-gift" wire:click="redeem" :disabled="$card->rewards_available < 1">
-                    صرف مكافأة
+                    {{ __('app.redeem_reward') }}
                 </x-filament::button>
                 <x-filament::button size="xl" color="gray" outlined icon="heroicon-o-device-phone-mobile" wire:click="toggleCardLink">
-                    رابط البطاقة
+                    {{ __('app.card_link') }}
                 </x-filament::button>
-                <x-filament::button size="xl" color="gray" outlined wire:click="clear">إنهاء</x-filament::button>
+                <x-filament::button size="xl" color="gray" outlined wire:click="clear">{{ __('app.finish') }}</x-filament::button>
             </div>
         </x-filament::section>
 
         @if ($showCardLink && $this->cardLink)
             @php($link = $this->cardLink)
             <x-filament::section>
-                <x-slot name="heading">أضف البطاقة لجوال العميل</x-slot>
-                <x-slot name="description">خلّ العميل يمسح الكود بكاميرا جواله، أو أرسل له الرابط على واتساب.</x-slot>
+                <x-slot name="heading">{{ __('app.add_card_to_phone') }}</x-slot>
+                <x-slot name="description">{{ __('app.ask_customer_camera_or_whatsapp') }}</x-slot>
 
                 <div style="display:flex; gap:1.5rem; align-items:center; flex-wrap:wrap;">
                     <img src="{{ $link['qrCode'] }}" alt="QR" style="width:14rem; height:14rem; background:#fff; padding:.5rem; border-radius:.75rem;">
                     <div style="display:flex; flex-direction:column; gap:.75rem;">
                         <x-filament::button tag="a" :href="$link['whatsappUrl']" target="_blank" color="success" icon="heroicon-o-chat-bubble-left-right">
-                            إرسال على واتساب
+                            {{ __('app.send_whatsapp') }}
                         </x-filament::button>
                         <x-filament::button tag="a" :href="$link['url']" target="_blank" color="gray" icon="heroicon-o-arrow-top-right-on-square">
-                            فتح الرابط
+                            {{ __('app.open_link') }}
                         </x-filament::button>
                     </div>
                 </div>
@@ -102,7 +102,7 @@
                         script.onload = resolve;
                         script.onerror = reject;
                         document.head.appendChild(script);
-                    }).catch(() => this.error = 'ما قدرنا نحمّل الماسح. تأكد من الإنترنت.');
+                    }).catch(() => this.error = '{{ __('app.scanner_load_failed') }}');
                 }
                 if (! window.Html5Qrcode) return;
                 this.scanner = new Html5Qrcode('card-scanner');
@@ -113,7 +113,7 @@
                     });
                     this.running = true;
                 } catch (e) {
-                    this.error = 'ما قدرنا نفتح الكاميرا. اسمح للمتصفح باستخدامها.';
+                    this.error = '{{ __('app.camera_failed') }}';
                 }
             },
             async stop() {

@@ -37,12 +37,12 @@ class SyncGoogleWalletPass
             ->setAccountId($card->code)
             ->setAccountName($card->customer->name)
             ->setBarcode(BarcodeType::Qr, $card->code, altText: $card->code)
-            ->addTextModule('المكافأة', $card->loyaltyProgram->reward_label, 'reward');
+            ->addTextModule(__('app.reward'), $card->loyaltyProgram->reward_label, 'reward');
 
         $this->applyBalance($builder, $card);
 
         if (filled($card->loyaltyProgram->terms)) {
-            $builder->addTextModule('الشروط', $card->loyaltyProgram->terms, 'terms');
+            $builder->addTextModule(__('app.terms'), $card->loyaltyProgram->terms, 'terms');
         }
 
         $pass = $builder->save();
@@ -88,8 +88,8 @@ class SyncGoogleWalletPass
             ->setIssuerName($program->merchant->name)
             ->setProgramName($program->name, 'ar')
             ->setProgramLogoUrl(GoogleWallet::logoUrl())
-            ->setAccountNameLabel('الاسم', 'ar')
-            ->setAccountIdLabel('رقم البطاقة', 'ar')
+            ->setAccountNameLabel(__('app.name'), 'ar')
+            ->setAccountIdLabel(__('app.card_number'), 'ar')
             ->setBackgroundColor($program->background_color)
             ->save();
 
@@ -99,9 +99,9 @@ class SyncGoogleWalletPass
     protected function applyBalance(LoyaltyPassBuilder $builder, LoyaltyCard $card): void
     {
         $builder
-            ->setBalanceLabel('الأختام')
+            ->setBalanceLabel(__('app.stamps'))
             ->setBalanceString($this->stampsValue($card))
-            ->setSecondaryBalanceLabel('مكافآت')
+            ->setSecondaryBalanceLabel(__('app.rewards'))
             ->setSecondaryBalanceString((string) $card->rewards_available);
     }
 
@@ -110,7 +110,7 @@ class SyncGoogleWalletPass
      */
     protected function stampsPoints(LoyaltyCard $card): array
     {
-        return ['label' => 'الأختام', 'balance' => ['string' => $this->stampsValue($card)]];
+        return ['label' => __('app.stamps'), 'balance' => ['string' => $this->stampsValue($card)]];
     }
 
     /**
@@ -118,7 +118,7 @@ class SyncGoogleWalletPass
      */
     protected function rewardsPoints(LoyaltyCard $card): array
     {
-        return ['label' => 'مكافآت', 'balance' => ['string' => (string) $card->rewards_available]];
+        return ['label' => __('app.rewards'), 'balance' => ['string' => (string) $card->rewards_available]];
     }
 
     protected function stampsValue(LoyaltyCard $card): string

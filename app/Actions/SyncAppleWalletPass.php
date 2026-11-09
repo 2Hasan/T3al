@@ -51,15 +51,15 @@ class SyncAppleWalletPass
                 resource_path('wallet/icon@2x.png'),
                 resource_path('wallet/icon@3x.png'),
             )
-            ->addHeaderField('rewards', (string) $card->rewards_available, label: 'مكافآت', changeMessage: 'مكافآتك المتاحة: :value')
-            ->addField('stamps', $this->stampsValue($card), label: 'الأختام', changeMessage: 'أختامك الحين: :value')
-            ->addSecondaryField('reward', $program->reward_label, label: 'المكافأة')
-            ->addSecondaryField('customer', $card->customer->name, label: 'الاسم')
+            ->addHeaderField('rewards', (string) $card->rewards_available, label: __('app.rewards'), changeMessage: __('app.wallet_rewards_change'))
+            ->addField('stamps', $this->stampsValue($card), label: __('app.stamps'), changeMessage: __('app.wallet_stamps_change'))
+            ->addSecondaryField('reward', $program->reward_label, label: __('app.reward'))
+            ->addSecondaryField('customer', $card->customer->name, label: __('app.name'))
             ->setBarcode(BarcodeType::Qr, $card->code, altText: $card->code)
             ->setDownloadName('loyalty-card');
 
         if (filled($program->terms)) {
-            $builder->addBackField('terms', $program->terms, label: 'الشروط');
+            $builder->addBackField('terms', $program->terms, label: __('app.terms'));
         }
 
         return $builder;

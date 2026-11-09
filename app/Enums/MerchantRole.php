@@ -10,8 +10,8 @@ enum MerchantRole: string
     public function label(): string
     {
         return match ($this) {
-            self::Owner => 'صاحب المحل',
-            self::Staff => 'كاشير',
+            self::Owner => __('app.owner'),
+            self::Staff => __('app.cashier'),
         };
     }
 }

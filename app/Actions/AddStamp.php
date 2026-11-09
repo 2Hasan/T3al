@@ -21,7 +21,7 @@ class AddStamp
     public function handle(LoyaltyCard $card, User $staff, int $quantity = 1): LoyaltyCard
     {
         if ($quantity < 1 || $quantity > self::MAX_STAMPS_PER_SCAN) {
-            throw new InvalidArgumentException('عدد الأختام لازم يكون بين 1 و '.self::MAX_STAMPS_PER_SCAN.'.');
+            throw new InvalidArgumentException(__('app.stamps_range', ['max' => self::MAX_STAMPS_PER_SCAN]));
         }
 
         $card = DB::transaction(function () use ($card, $staff, $quantity): LoyaltyCard {

@@ -10,8 +10,8 @@ enum CardActivityType: string
     public function label(): string
     {
         return match ($this) {
-            self::Stamp => 'ختم',
-            self::Redeem => 'صرف مكافأة',
+            self::Stamp => __('app.stamp'),
+            self::Redeem => __('app.redeem_reward'),
         };
     }
 }

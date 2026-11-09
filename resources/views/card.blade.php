@@ -6,7 +6,7 @@
                 <h1 class="mt-1 text-xl font-bold">{{ $card->customer->name }}</h1>
             </div>
             <div class="text-left">
-                <p class="text-xs" style="color: {{ $program->label_color }};">مكافآت</p>
+                <p class="text-xs" style="color: {{ $program->label_color }};">{{ __('app.rewards') }}</p>
                 <p class="text-2xl font-bold">{{ $card->rewards_available }}</p>
             </div>
         </div>
@@ -21,28 +21,28 @@
         </div>
 
         <p class="mt-4 text-sm" style="color: {{ $program->label_color }};">
-            اجمع {{ $program->stamps_required }} أختام واحصل على {{ $program->reward_label }}
+            {{ __('app.collect_stamps', ['stamps' => $program->stamps_required, 'reward' => $program->reward_label]) }}
         </p>
     </div>
 
     <div class="mt-6 space-y-3">
         @if ($appleWalletEnabled)
             <a href="{{ route('cards.apple', $card) }}" class="block w-full rounded-xl bg-black px-4 py-4 text-center text-lg font-bold text-white">
-                أضف إلى Apple Wallet
+                {{ __('app.add_to_apple') }}
             </a>
         @endif
         @if ($googleWalletEnabled)
             <a href="{{ route('cards.google', $card) }}" class="block w-full rounded-xl border-2 border-stone-900 bg-white px-4 py-4 text-center text-lg font-bold text-stone-900">
-                أضف إلى Google Wallet
+                {{ __('app.add_to_google') }}
             </a>
         @endif
 
         @unless ($appleWalletEnabled || $googleWalletEnabled)
-            <p class="rounded-xl bg-amber-50 p-4 text-center text-sm text-amber-800">إضافة البطاقة للمحفظة غير متاحة حالياً.</p>
+            <p class="rounded-xl bg-amber-50 p-4 text-center text-sm text-amber-800">{{ __('app.wallet_unavailable') }}</p>
         @endunless
     </div>
 
     <p class="mt-8 text-center text-sm text-stone-600">
-        بعد ما تضيف البطاقة، ورِّها للكاشير في كل زيارة عشان ياخذ ختم.
+        {{ __('app.after_adding_show_cashier') }}
     </p>
 </x-public-layout>

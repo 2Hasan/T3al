@@ -20,7 +20,7 @@ class BahrainPhone
         $digits = preg_replace('/^(00)?973/', '', $digits);
 
         if (! preg_match('/^[3-9]\d{7}$/', $digits)) {
-            throw new InvalidArgumentException('رقم الجوال غير صحيح. اكتب رقم بحريني من 8 أرقام.');
+            throw new InvalidArgumentException(__('app.invalid_phone'));
         }
 
         return '973'.$digits;
