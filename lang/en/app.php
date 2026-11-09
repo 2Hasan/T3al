@@ -137,4 +137,5 @@ return [
     'feature_order_queue' => 'Order queue',
     'feature_smart_offers' => 'Smart offers',
     'feature_analytics' => 'Analytics',
+    'more' => 'More',
 ];

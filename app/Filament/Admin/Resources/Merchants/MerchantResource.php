@@ -9,6 +9,7 @@ use App\Models\Merchant;
 use BackedEnum;
 use Carbon\Carbon;
 use Filament\Actions\Action;
+use Filament\Actions\ActionGroup;
 use Filament\Actions\EditAction;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\Select;
@@ -91,71 +92,75 @@ class MerchantResource extends Resource
             ->recordActions([
                 EditAction::make(),
 
-                Action::make('recordPayment')
-                    ->label(__('app.record_payment'))
-                    ->icon(Heroicon::OutlinedBanknotes)
-                    ->schema([
-                        Select::make('months')
-                            ->label(__('app.months'))
-                            ->options([1 => '1', 3 => '3', 6 => '6', 12 => '12'])
-                            ->default(1)
-                            ->required(),
-                        TextInput::make('amount')
-                            ->label(__('app.amount'))
-                            ->helperText(__('app.amount_help'))
-                            ->numeric()
-                            ->step('0.001')
-                            ->suffix('BHD')
-                            ->required(),
-                        DateTimePicker::make('paid_on')
-                            ->label(__('app.paid_on'))
-                            ->default(now())
-                            ->required(),
-                        TextInput::make('reference')->label(__('app.reference'))->maxLength(80),
-                        TextInput::make('note')->label(__('app.note'))->maxLength(255),
-                    ])
-                    ->fillForm(fn (Merchant $record): array => ['amount' => $record->monthlyAmount()])
-                    ->action(function (Merchant $record, array $data): void {
-                        app(RecordPayment::class)->handle(
-                            merchant: $record,
-                            months: (int) $data['months'],
-                            amount: (string) $data['amount'],
-                            paidOn: Carbon::parse($data['paid_on']),
-                            reference: $data['reference'] ?? null,
-                            note: $data['note'] ?? null,
-                            recordedBy: auth()->user(),
-                        );
-                    }),
+                ActionGroup::make([
+                    Action::make('recordPayment')
+                        ->label(__('app.record_payment'))
+                        ->icon(Heroicon::OutlinedBanknotes)
+                        ->schema([
+                            Select::make('months')
+                                ->label(__('app.months'))
+                                ->options([1 => '1', 3 => '3', 6 => '6', 12 => '12'])
+                                ->default(1)
+                                ->required(),
+                            TextInput::make('amount')
+                                ->label(__('app.amount'))
+                                ->helperText(__('app.amount_help'))
+                                ->numeric()
+                                ->step('0.001')
+                                ->suffix('BHD')
+                                ->required(),
+                            DateTimePicker::make('paid_on')
+                                ->label(__('app.paid_on'))
+                                ->default(now())
+                                ->required(),
+                            TextInput::make('reference')->label(__('app.reference'))->maxLength(80),
+                            TextInput::make('note')->label(__('app.note'))->maxLength(255),
+                        ])
+                        ->fillForm(fn (Merchant $record): array => ['amount' => $record->monthlyAmount()])
+                        ->action(function (Merchant $record, array $data): void {
+                            app(RecordPayment::class)->handle(
+                                merchant: $record,
+                                months: (int) $data['months'],
+                                amount: (string) $data['amount'],
+                                paidOn: Carbon::parse($data['paid_on']),
+                                reference: $data['reference'] ?? null,
+                                note: $data['note'] ?? null,
+                                recordedBy: auth()->user(),
+                            );
+                        }),
 
-                Action::make('extendTrial')
-                    ->label(__('app.extend_trial'))
-                    ->icon(Heroicon::OutlinedClock)
-                    ->schema([
-                        TextInput::make('days')->label(__('app.days'))->numeric()->default(14)->minValue(1)->maxValue(90)->required(),
-                    ])
-                    ->action(function (Merchant $record, array $data): void {
-                        $start = $record->trial_ends_at && $record->trial_ends_at->isFuture() ? $record->trial_ends_at : now();
+                    Action::make('extendTrial')
+                        ->label(__('app.extend_trial'))
+                        ->icon(Heroicon::OutlinedClock)
+                        ->schema([
+                            TextInput::make('days')->label(__('app.days'))->numeric()->default(14)->minValue(1)->maxValue(90)->required(),
+                        ])
+                        ->action(function (Merchant $record, array $data): void {
+                            $start = $record->trial_ends_at && $record->trial_ends_at->isFuture() ? $record->trial_ends_at : now();
 
-                        $record->update([
-                            'trial_ends_at' => $start->copy()->addDays((int) $data['days']),
-                            'status' => $record->status === MerchantStatus::Suspended ? MerchantStatus::Trial : $record->status,
-                        ]);
-                    }),
+                            $record->update([
+                                'trial_ends_at' => $start->copy()->addDays((int) $data['days']),
+                                'status' => $record->status === MerchantStatus::Suspended ? MerchantStatus::Trial : $record->status,
+                            ]);
+                        }),
 
-                Action::make('suspend')
-                    ->label(__('app.suspend'))
-                    ->icon(Heroicon::OutlinedPauseCircle)
-                    ->color('danger')
-                    ->requiresConfirmation()
-                    ->visible(fn (Merchant $record): bool => $record->status !== MerchantStatus::Suspended)
-                    ->action(fn (Merchant $record) => $record->update(['status' => MerchantStatus::Suspended])),
+                    Action::make('suspend')
+                        ->label(__('app.suspend'))
+                        ->icon(Heroicon::OutlinedPauseCircle)
+                        ->color('danger')
+                        ->requiresConfirmation()
+                        ->visible(fn (Merchant $record): bool => $record->status !== MerchantStatus::Suspended)
+                        ->action(fn (Merchant $record) => $record->update(['status' => MerchantStatus::Suspended])),
 
-                Action::make('activate')
-                    ->label(__('app.activate'))
-                    ->icon(Heroicon::OutlinedPlayCircle)
-                    ->color('success')
-                    ->visible(fn (Merchant $record): bool => $record->status === MerchantStatus::Suspended)
-                    ->action(fn (Merchant $record) => $record->update(['status' => MerchantStatus::Active])),
+                    Action::make('activate')
+                        ->label(__('app.activate'))
+                        ->icon(Heroicon::OutlinedPlayCircle)
+                        ->color('success')
+                        ->visible(fn (Merchant $record): bool => $record->status === MerchantStatus::Suspended)
+                        ->action(fn (Merchant $record) => $record->update(['status' => MerchantStatus::Active])),
+                ])
+                    ->label(__('app.more'))
+                    ->icon(Heroicon::OutlinedEllipsisVertical),
             ])
             ->toolbarActions([]);
     }

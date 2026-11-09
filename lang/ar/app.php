@@ -137,4 +137,5 @@ return [
     'feature_order_queue' => 'طلبات الانتظار',
     'feature_smart_offers' => 'العروض الذكية',
     'feature_analytics' => 'التحليلات',
+    'more' => 'المزيد',
 ];
