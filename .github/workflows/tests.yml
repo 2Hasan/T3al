@@ -17,11 +17,26 @@ jobs:
     runs-on: ubuntu-latest
 
     strategy:
-      fail-fast: true
+      fail-fast: false
       matrix:
         php: [8.3, 8.4, 8.5]
 
     name: PHP ${{ matrix.php }}
+
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_DB: t3al_test
+          POSTGRES_USER: t3al
+          POSTGRES_PASSWORD: t3al_dev
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U t3al -d t3al_test"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
 
     steps:
       - name: Checkout code
@@ -33,11 +48,14 @@ jobs:
         uses: shivammathur/setup-php@eb7c497e18156a6bbabfef1d3a82760b9eda3962 # v2
         with:
           php-version: ${{ matrix.php }}
-          extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite
+          extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, pdo_pgsql, pgsql, sqlite, pdo_sqlite
           coverage: none
 
       - name: Install Composer dependencies
         run: composer install --prefer-dist --no-interaction --no-progress
+
+      - name: Install Node dependencies and build assets
+        run: npm ci && npm run build
 
       - name: Copy environment file
         run: cp .env.example .env
