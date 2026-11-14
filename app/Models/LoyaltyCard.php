@@ -52,6 +52,14 @@ class LoyaltyCard extends Model
      * Links a freshly created wallet pass to this card. Saved quietly because the
      * package treats any update as a balance change and would push it to the wallet.
      */
+    /**
+     * Gives the card a new code. The old card link and QR stop working immediately.
+     */
+    public function rotateCode(): void
+    {
+        $this->update(['code' => static::generateCode()]);
+    }
+
     public function attachMobilePass(MobilePass $mobilePass): void
     {
         $mobilePass->model()->associate($this);

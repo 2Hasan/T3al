@@ -32,7 +32,12 @@
                     @else
                         <a href="{{ route('locale.switch', 'ar') }}" lang="ar" class="inline-flex min-h-11 items-center rounded-full px-3 text-sm font-semibold text-ink-soft hover:bg-ink/5 hover:text-ink">العربية</a>
                     @endif
-                    <a href="{{ url('/app') }}" class="hidden min-h-11 items-center rounded-full bg-ink px-5 text-sm font-semibold text-cream hover:bg-ink/85 sm:inline-flex">{{ __('app.nav_start') }}</a>
+                    @auth
+                        <a href="{{ url('/app') }}" class="inline-flex min-h-11 items-center rounded-full bg-ink px-5 text-sm font-semibold text-cream hover:bg-ink/85">{{ __('app.nav_dashboard') }}</a>
+                    @else
+                        <a href="{{ url('/app/login') }}" class="inline-flex min-h-11 items-center rounded-full px-4 text-sm font-semibold text-ink-soft hover:bg-ink/5 hover:text-ink">{{ __('app.nav_login') }}</a>
+                        <a href="{{ url('/app') }}" class="hidden min-h-11 items-center rounded-full bg-brand px-5 text-sm font-bold text-ink shadow-sm hover:bg-brand/90 sm:inline-flex">{{ __('app.nav_start') }}</a>
+                    @endauth
                 </div>
             </div>
         </header>

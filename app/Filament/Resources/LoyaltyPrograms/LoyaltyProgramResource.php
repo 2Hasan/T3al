@@ -5,8 +5,10 @@ namespace App\Filament\Resources\LoyaltyPrograms;
 use App\Filament\Concerns\RestrictedToOwners;
 use App\Filament\Resources\LoyaltyPrograms\Pages\ManageLoyaltyPrograms;
 use App\Models\LoyaltyProgram;
+use App\Models\Merchant;
 use BackedEnum;
 use Filament\Actions\EditAction;
+use Filament\Facades\Filament;
 use Filament\Forms\Components\ColorPicker;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
@@ -22,7 +24,19 @@ use Filament\Tables\Table;
 
 class LoyaltyProgramResource extends Resource
 {
-    use RestrictedToOwners;
+    use RestrictedToOwners {
+        canAccess as protected ownersOnlyCanAccess;
+    }
+
+    public static function canAccess(): bool
+    {
+        $shop = Filament::getTenant();
+
+        return static::ownersOnlyCanAccess()
+            && $shop instanceof Merchant
+            && $shop->isOperational()
+            && $shop->hasFeature('loyalty_cards');
+    }
 
     protected static ?string $model = LoyaltyProgram::class;
 

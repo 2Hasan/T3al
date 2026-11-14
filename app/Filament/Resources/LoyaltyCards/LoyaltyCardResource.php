@@ -4,10 +4,15 @@ namespace App\Filament\Resources\LoyaltyCards;
 
 use App\Filament\Resources\LoyaltyCards\Pages\ManageLoyaltyCards;
 use App\Models\LoyaltyCard;
+use App\Models\Merchant;
+use App\Models\User;
 use App\Support\BahrainPhone;
 use BackedEnum;
+use Filament\Actions\Action;
 use Filament\Actions\ViewAction;
+use Filament\Facades\Filament;
 use Filament\Infolists\Components\TextEntry;
+use Filament\Notifications\Notification;
 use Filament\Resources\Resource;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
@@ -27,6 +32,30 @@ class LoyaltyCardResource extends Resource
     protected static ?string $model = LoyaltyCard::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedUsers;
+
+    public static function canAccess(): bool
+    {
+        if (! parent::canAccess()) {
+            return false;
+        }
+
+        $shop = Filament::getTenant();
+
+        return $shop instanceof Merchant
+            && $shop->isOperational()
+            && $shop->hasFeature('loyalty_cards');
+    }
+
+    /** Only the shop owner can replace a card's link. */
+    public static function ownerCanRotate(): bool
+    {
+        $user = Filament::auth()->user();
+        $shop = Filament::getTenant();
+
+        return $user instanceof User
+            && $shop instanceof Merchant
+            && $user->isOwnerOf($shop);
+    }
 
     public static function getModelLabel(): string
     {
@@ -117,6 +146,20 @@ class LoyaltyCardResource extends Resource
             ])
             ->recordActions([
                 ViewAction::make(),
+                Action::make('rotateLink')
+                    ->label(__('app.card_rotate_link'))
+                    ->icon(Heroicon::OutlinedArrowPath)
+                    ->color('danger')
+                    ->requiresConfirmation()
+                    ->modalDescription(__('app.card_rotate_link_help'))
+                    ->visible(fn (): bool => static::ownerCanRotate())
+                    ->action(function (LoyaltyCard $record): void {
+                        abort_unless(static::ownerCanRotate(), 403);
+
+                        $record->rotateCode();
+
+                        Notification::make()->title(__('app.card_link_rotated'))->success()->send();
+                    }),
             ]);
     }
 

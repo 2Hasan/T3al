@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Middleware\SecurityHeaders;
 use App\Http\Middleware\SetLocale;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
@@ -13,6 +14,8 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware): void {
         $middleware->web(append: [SetLocale::class]);
+        // Every response, including the Filament panels, gets the security headers.
+        $middleware->append(SecurityHeaders::class);
         // Apple Wallet calls these endpoints from the device itself, with no session or CSRF token.
         $middleware->preventRequestForgery(except: ['passkit/*']);
     })
