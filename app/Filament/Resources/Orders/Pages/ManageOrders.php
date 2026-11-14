@@ -13,6 +13,7 @@ use Filament\Notifications\Notification;
 use Filament\Resources\Pages\ManageRecords;
 use Filament\Support\Exceptions\Halt;
 use Filament\Support\Icons\Heroicon;
+use Illuminate\Support\Facades\DB;
 
 class ManageOrders extends ManageRecords
 {
@@ -50,14 +51,19 @@ class ManageOrders extends ManageRecords
                         throw new Halt;
                     }
 
-                    Order::create([
-                        'merchant_id' => $shop->id,
-                        'loyalty_card_id' => $card->id,
-                        'created_by' => Filament::auth()->id(),
-                        'number' => OrderResource::nextNumber($shop),
-                        'note' => filled($data['note'] ?? null) ? $data['note'] : null,
-                        'status' => OrderStatus::Preparing,
-                    ]);
+                    DB::transaction(function () use ($shop, $card, $data): void {
+                        // Lock the shop row so concurrent orders take turns computing the number.
+                        Merchant::query()->whereKey($shop->id)->lockForUpdate()->first();
+
+                        Order::create([
+                            'merchant_id' => $shop->id,
+                            'loyalty_card_id' => $card->id,
+                            'created_by' => Filament::auth()->id(),
+                            'number' => OrderResource::nextNumber($shop),
+                            'note' => filled($data['note'] ?? null) ? $data['note'] : null,
+                            'status' => OrderStatus::Preparing,
+                        ]);
+                    });
 
                     Notification::make()->title(__('app.order_created'))->success()->send();
                 }),

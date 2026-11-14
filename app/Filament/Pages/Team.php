@@ -17,6 +17,7 @@ use Filament\Pages\Page;
 use Filament\Support\Icons\Heroicon;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\RateLimiter;
 use Throwable;
 
 /**
@@ -25,6 +26,9 @@ use Throwable;
  */
 class Team extends Page
 {
+    /** Invitations a shop can send per day, so the platform's email cannot be used for spam. */
+    public const INVITES_PER_DAY = 20;
+
     protected string $view = 'filament.pages.team';
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedUserGroup;
@@ -153,6 +157,15 @@ class Team extends Page
     protected function sendInvitation(string $email): void
     {
         $shop = $this->shop();
+        $limitKey = 'team-invites:'.$shop->id;
+
+        if (RateLimiter::tooManyAttempts($limitKey, self::INVITES_PER_DAY)) {
+            Notification::make()->title(__('app.team_invite_limit'))->warning()->send();
+
+            return;
+        }
+
+        RateLimiter::hit($limitKey, 86400);
 
         if (! MailSettings::isConfigured()) {
             Notification::make()

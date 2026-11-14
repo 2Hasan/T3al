@@ -55,7 +55,8 @@ The script installs dependencies without dev packages, builds the front end, run
    ```
 
    ```php
-   App\Models\User::create(['name' => 'Owner', 'email' => 'you@example.com', 'password' => Hash::make('a-strong-password'), 'is_admin' => true]);
+   $u = App\Models\User::create(['name' => 'Owner', 'email' => 'you@example.com', 'password' => Hash::make('a-strong-password')]);
+   $u->forceFill(['is_admin' => true])->save();
    ```
 
 ## 6. Scheduler
@@ -81,3 +82,5 @@ This runs `merchants:suspend-expired` daily at 00:05, which suspends shops whose
 
 - Apple Wallet needs the Apple Developer account and certificates. Until then, leave the `MOBILE_PASS_APPLE_*` values empty; the card page shows the wallet as unavailable.
 - Google Wallet needs an issuer ID and a service-account key. Leave the `MOBILE_PASS_GOOGLE_*` values empty until then.
+
+> **Warning:** `APP_KEY` encrypts the SMTP password saved in the admin panel. Do not change `APP_KEY` unless you re-enter the SMTP settings afterwards; otherwise the saved password can no longer be read.

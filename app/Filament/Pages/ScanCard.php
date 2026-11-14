@@ -19,6 +19,7 @@ use Filament\Forms\Components\TextInput;
 use Filament\Notifications\Notification;
 use Filament\Pages\Page;
 use Filament\Support\Icons\Heroicon;
+use Illuminate\Support\Facades\RateLimiter;
 use Livewire\Attributes\Computed;
 
 /**
@@ -135,6 +136,12 @@ class ScanCard extends Page
             return;
         }
 
+        if (! $this->withinLookupLimit()) {
+            Notification::make()->title(__('app.lookup_limit'))->warning()->send();
+
+            return;
+        }
+
         $card = $this->merchant()->loyaltyCards()
             ->where('code', strtoupper($term))
             ->first();
@@ -248,6 +255,23 @@ class ScanCard extends Page
         return $this->merchant()->loyaltyCards()
             ->with(['customer', 'loyaltyProgram'])
             ->find($this->cardId);
+    }
+
+    /**
+     * Thirty lookups per minute per staff member. A card code or phone search is
+     * cheap for a cashier, but not for a script trying many numbers.
+     */
+    protected function withinLookupLimit(): bool
+    {
+        $key = 'lookup:'.Filament::auth()->id();
+
+        if (RateLimiter::tooManyAttempts($key, 30)) {
+            return false;
+        }
+
+        RateLimiter::hit($key, 60);
+
+        return true;
     }
 
     protected function merchant(): Merchant

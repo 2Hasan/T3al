@@ -287,4 +287,9 @@ return [
     'team_mail_not_configured' => 'Email is not set up, so the invitation cannot be sent.',
     'contact_platform_admin' => 'Contact T3al support to enable email sending.',
     'mail_not_configured' => 'Enter the SMTP settings and save them before sending.',
+    'team_invite_limit' => 'Daily invitation limit reached (20). Try again tomorrow.',
+    'card_rotate_link' => 'Renew card link',
+    'card_rotate_link_help' => 'The old card link and QR stop working immediately. The customer needs the new link.',
+    'card_link_rotated' => 'The card link was renewed.',
+    'lookup_limit' => 'Too many searches in a short time. Wait a minute.',
 ];
