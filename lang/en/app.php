@@ -209,4 +209,8 @@ return [
     'hero_admin_subtitle' => 'A quick view of the platform, shops and revenue.',
     'hero_shop_subtitle' => 'Your customers’ stamps and loyalty cards in one place.',
     'hero_platform' => 'Platform dashboard',
+    'hero_notice_app' => 'T3al',
+    'hero_notice_now' => 'now',
+    'hero_notice_title' => 'Your order is ready',
+    'hero_notice_body' => 'Please collect it from the cashier.',
 ];

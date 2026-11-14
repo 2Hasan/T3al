@@ -92,11 +92,24 @@
                         </div>
                     </div>
 
-                    <div class="motion-safe:animate-pop absolute -bottom-5 -start-4 flex items-center gap-3 rounded-2xl bg-white px-4 py-3 shadow-xl ring-1 ring-ink/10" style="animation-delay: 2.4s;">
-                        <span class="flex size-9 items-center justify-center rounded-full bg-teal/15 text-teal">
-                            <svg viewBox="0 0 24 24" class="size-5" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 4.5 4.5L19 7"/></svg>
-                        </span>
-                        <span class="text-sm font-bold text-ink">{{ __('app.feature_3_title') }}</span>
+                    {{-- The customer's phone receives the notification; it is not part of the card. --}}
+                    <div class="motion-safe:animate-pop relative mx-auto mt-8 w-64 md:absolute md:-bottom-16 md:-start-14 md:mt-0 md:w-60" style="animation-delay: 2.4s;">
+                        <div class="rounded-[2.25rem] bg-ink p-2.5 shadow-2xl ring-1 ring-white/15">
+                            <div class="rounded-[1.75rem] bg-linear-to-b from-[#2a2622] to-[#161311] px-3 pt-8 pb-5">
+                                <div class="mx-auto mb-4 h-1.5 w-16 rounded-full bg-white/10" aria-hidden="true"></div>
+                                <div class="flex items-start gap-3 rounded-2xl bg-white/95 p-3 shadow-lg backdrop-blur">
+                                    <span class="flex size-9 shrink-0 items-center justify-center rounded-xl bg-brand text-base font-black text-ink">ت</span>
+                                    <div class="min-w-0 flex-1">
+                                        <div class="flex items-center justify-between gap-2">
+                                            <p class="text-xs font-bold text-ink-soft">{{ __('app.hero_notice_app') }}</p>
+                                            <p class="text-[0.65rem] text-ink-soft/80">{{ __('app.hero_notice_now') }}</p>
+                                        </div>
+                                        <p class="mt-0.5 text-sm font-bold text-ink">{{ __('app.hero_notice_title') }}</p>
+                                        <p class="mt-0.5 text-xs leading-relaxed text-ink-soft">{{ __('app.hero_notice_body') }}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </section>
