@@ -282,4 +282,6 @@ return [
     'mail_test_failed' => 'The test email failed',
     'save' => 'Save',
     'none' => 'None',
+    'nav_login' => 'Sign in',
+    'nav_dashboard' => 'Dashboard',
 ];
