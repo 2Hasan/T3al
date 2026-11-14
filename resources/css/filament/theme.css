@@ -156,6 +156,17 @@ html:not(.dark) .fi-main-ctn .fi-header-heading {
         margin-inline-start: 0;
     }
 
+    /* Checkbox options (for example the plan features) need full-size tap targets on phones. */
+    .fi-fo-checkbox-list-option {
+        min-height: 2.75rem;
+        align-items: center;
+    }
+
+    .fi-fo-checkbox-list-option .fi-checkbox-input {
+        width: 1.25rem;
+        height: 1.25rem;
+    }
+
     /* Stat tiles in two columns: smaller numbers keep each tile compact. */
     .fi-wi-stats-overview-stat {
         padding: 1rem;
