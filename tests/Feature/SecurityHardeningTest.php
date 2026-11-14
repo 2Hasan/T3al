@@ -147,10 +147,10 @@ class SecurityHardeningTest extends TestCase
         $this->assertSame('hello@example.com', config('mail.from.address'));
     }
 
-    public function test_the_apple_wallet_link_is_not_served_without_the_plan_feature(): void
+    public function test_the_apple_wallet_link_is_not_served_without_loyalty_cards_in_the_plan(): void
     {
         config(['mobile-pass.apple.certificate_path' => '/path/to/certificate.p12']);
-        $plan = Plan::factory()->create(['features' => ['loyalty_cards', 'cashier_scan']]);
+        $plan = Plan::factory()->create(['features' => ['cashier_scan']]);
         $merchant = Merchant::factory()->create(['plan_id' => $plan->id]);
         $program = LoyaltyProgram::factory()->create(['merchant_id' => $merchant->id]);
         $card = LoyaltyCard::factory()->create(['merchant_id' => $merchant->id, 'loyalty_program_id' => $program->id]);

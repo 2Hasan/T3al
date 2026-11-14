@@ -8,14 +8,16 @@ namespace App\Support;
  */
 class PlanFeatures
 {
-    /** @return array<int, string> */
+    /**
+     * Apple and Google Wallet are part of loyalty cards, so they are not listed here.
+     *
+     * @return array<int, string>
+     */
     public static function keys(): array
     {
         return [
             'loyalty_cards',
             'cashier_scan',
-            'apple_wallet',
-            'google_wallet',
             'order_queue',
             'smart_offers',
             'analytics',

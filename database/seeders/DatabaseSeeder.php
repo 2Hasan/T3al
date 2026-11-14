@@ -28,7 +28,7 @@ class DatabaseSeeder extends Seeder
             'name' => 'Basic',
             'slug' => 'basic',
             'price_per_branch' => '3.000',
-            'features' => ['loyalty_cards', 'cashier_scan', 'apple_wallet', 'google_wallet'],
+            'features' => ['loyalty_cards', 'cashier_scan'],
             'is_active' => true,
             'sort_order' => 1,
         ]);
