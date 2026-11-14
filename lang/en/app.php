@@ -292,4 +292,7 @@ return [
     'card_rotate_link_help' => 'The old card link and QR stop working immediately. The customer needs the new link.',
     'card_link_rotated' => 'The card link was renewed.',
     'lookup_limit' => 'Too many searches in a short time. Wait a minute.',
+    'card_preview' => 'Card preview',
+    'card_preview_hint' => 'This is the card as the customer sees it. It updates as you type.',
+    'card_preview_stamps' => 'Loyalty card · :count stamps',
 ];
