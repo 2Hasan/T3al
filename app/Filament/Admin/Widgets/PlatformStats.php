@@ -16,6 +16,15 @@ class PlatformStats extends StatsOverviewWidget
 {
     protected static ?int $sort = 1;
 
+    /**
+     * Two tiles per row on phones, three on large screens, so the six tiles
+     * do not stack into one long column.
+     */
+    protected function getColumns(): int|array|null
+    {
+        return ['default' => 2, 'xl' => 3];
+    }
+
     protected function getStats(): array
     {
         $shops = Merchant::query();

@@ -205,4 +205,12 @@ return [
     'skip_to_content' => 'تخطّي إلى المحتوى',
     'stamp_collected' => 'ختم مُضاف',
     'stamp_empty' => 'ختم لم يُضف بعد',
+    'hero_welcome' => 'مرحباً، :name',
+    'hero_admin_subtitle' => 'نظرة سريعة على المنصة والمحلات والإيرادات.',
+    'hero_shop_subtitle' => 'أختام زبائنك وبطاقات الولاء في مكان واحد.',
+    'hero_platform' => 'لوحة المنصة',
+    'hero_notice_app' => 'T3al',
+    'hero_notice_now' => 'الآن',
+    'hero_notice_title' => 'طلبك جاهز',
+    'hero_notice_body' => 'تفضّل من الكاشير، طلبك جاهز.',
 ];

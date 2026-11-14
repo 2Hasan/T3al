@@ -2,7 +2,9 @@
 
 namespace App\Providers\Filament;
 
+use App\Filament\Widgets\PanelHero;
 use App\Support\Brand;
+use App\Support\InitialsAvatarProvider;
 use Filament\FontProviders\GoogleFontProvider;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
@@ -11,7 +13,6 @@ use Filament\Http\Middleware\DispatchServingFilamentEvent;
 use Filament\Pages\Dashboard;
 use Filament\Panel;
 use Filament\PanelProvider;
-use Filament\Widgets\AccountWidget;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Illuminate\Cookie\Middleware\EncryptCookies;
 use Illuminate\Foundation\Http\Middleware\PreventRequestForgery;
@@ -31,11 +32,14 @@ class AdminPanelProvider extends PanelProvider
             ->path('admin')
             ->domain(config('t3al.domains.admin') ?: null)
             ->brandName('T3al Admin')
+            ->brandLogo(view('filament.brand', ['label' => 'Admin']))
+            ->brandLogoHeight('2.25rem')
+            ->defaultAvatarProvider(InitialsAvatarProvider::class)
             ->font('Inter', url: Brand::FONTS_URL, provider: GoogleFontProvider::class)
             ->viteTheme('resources/css/filament/theme.css')
             ->login()
             ->colors(['primary' => Brand::PANEL_PRIMARY, 'danger' => Brand::PANEL_DANGER])
-            ->widgets([AccountWidget::class])
+            ->widgets([PanelHero::class])
             ->discoverResources(in: app_path('Filament/Admin/Resources'), for: 'App\Filament\Admin\Resources')
             ->discoverWidgets(in: app_path('Filament/Admin/Widgets'), for: 'App\Filament\Admin\Widgets')
             ->pages([Dashboard::class])
