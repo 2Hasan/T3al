@@ -12,6 +12,14 @@ class LoyaltyStats extends StatsOverviewWidget
 {
     protected static ?int $sort = 1;
 
+    /**
+     * Two tiles per row on phones, four on large screens.
+     */
+    protected function getColumns(): int|array|null
+    {
+        return ['default' => 2, 'xl' => 4];
+    }
+
     protected function getStats(): array
     {
         /** @var Merchant $merchant */

@@ -129,6 +129,11 @@ html:not(.dark) .fi-main-ctn .fi-header-heading {
     letter-spacing: -0.02em;
 }
 
+/* The stats grid sits inside a section; that section should not draw its own frame around the tiles. */
+.fi-wi-stats-overview .fi-section {
+    box-shadow: none;
+}
+
 /* Login card sits on the cream canvas with the same soft shadow as the sections. */
 .fi-simple-main {
     border-radius: 1.5rem;
@@ -141,6 +146,32 @@ html:not(.dark) .fi-main-ctn .fi-header-heading {
  * group headings and their collapse controls, icon buttons, buttons and inputs.
  */
 @media (max-width: 40rem) {
+    /* Filament hides the brand in the topbar below desktop width. Keep the mark on phones. */
+    .fi-topbar-start {
+        display: flex;
+        margin-inline-end: 0.75rem;
+    }
+
+    .fi-topbar-start .fi-logo {
+        margin-inline-start: 0;
+    }
+
+    /* Stat tiles in two columns: smaller numbers keep each tile compact. */
+    .fi-wi-stats-overview-stat {
+        padding: 1rem;
+    }
+
+    .fi-wi-stats-overview-stat-value {
+        font-size: 1.5rem;
+        line-height: 2rem;
+    }
+
+    /* Row actions such as "عرض" stay on one line inside narrow tables. */
+    .fi-ta-actions a,
+    .fi-ta-actions button {
+        white-space: nowrap;
+    }
+
     .fi-btn,
     .fi-input,
     .fi-icon-btn,
