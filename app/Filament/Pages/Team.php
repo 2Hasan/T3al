@@ -7,6 +7,7 @@ use App\Mail\TeamInvitation;
 use App\Models\Invitation;
 use App\Models\Merchant;
 use App\Models\User;
+use App\Support\MailSettings;
 use BackedEnum;
 use Filament\Actions\Action;
 use Filament\Facades\Filament;
@@ -67,6 +68,8 @@ class Team extends Page
                         ->maxLength(190),
                 ])
                 ->action(function (array $data): void {
+                    abort_unless(static::canAccess(), 403);
+
                     $this->sendInvitation(strtolower(trim($data['email'])));
                 }),
         ];
@@ -74,6 +77,8 @@ class Team extends Page
 
     public function resend(int $invitationId): void
     {
+        abort_unless(static::canAccess(), 403);
+
         $invitation = $this->pendingInvitations()->whereKey($invitationId)->first();
 
         if ($invitation === null) {
@@ -85,6 +90,8 @@ class Team extends Page
 
     public function revoke(int $invitationId): void
     {
+        abort_unless(static::canAccess(), 403);
+
         $this->pendingInvitations()->whereKey($invitationId)->delete();
 
         Notification::make()->title(__('app.team_invite_revoked'))->success()->send();
@@ -92,6 +99,8 @@ class Team extends Page
 
     public function removeMember(int $userId): void
     {
+        abort_unless(static::canAccess(), 403);
+
         $shop = $this->shop();
         $member = $shop->users()->whereKey($userId)->first();
 
@@ -145,6 +154,16 @@ class Team extends Page
     {
         $shop = $this->shop();
 
+        if (! MailSettings::isConfigured()) {
+            Notification::make()
+                ->title(__('app.team_mail_not_configured'))
+                ->body(__('app.contact_platform_admin'))
+                ->danger()
+                ->send();
+
+            return;
+        }
+
         if ($shop->users()->where('email', $email)->exists()) {
             Notification::make()->title(__('app.team_already_member'))->warning()->send();
 
@@ -161,7 +180,7 @@ class Team extends Page
         } catch (Throwable $e) {
             Notification::make()
                 ->title(__('app.team_invite_failed'))
-                ->body(__('app.team_invite_failed_help'))
+                ->body(__('app.contact_platform_admin'))
                 ->danger()
                 ->send();
 

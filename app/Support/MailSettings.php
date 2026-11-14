@@ -12,6 +12,23 @@ use Throwable;
  */
 class MailSettings
 {
+    /**
+     * True when the platform can actually send email: SMTP is saved in the admin
+     * panel, or the server's .env already points at a real mailer (not 'log').
+     */
+    public static function isConfigured(): bool
+    {
+        try {
+            if (Schema::hasTable('app_settings') && (AppSetting::mail()['host'] ?? '') !== '') {
+                return true;
+            }
+        } catch (Throwable) {
+            // Fall through to the .env check.
+        }
+
+        return config('mail.default') !== 'log' && config('mail.default') !== 'array';
+    }
+
     public static function apply(): void
     {
         try {

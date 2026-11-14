@@ -58,6 +58,7 @@ class InvitationController extends Controller
         }
 
         Auth::login($user);
+        $request->session()->regenerate();
 
         return redirect('/app/'.$invitation->merchant->slug);
     }

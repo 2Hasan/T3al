@@ -284,4 +284,7 @@ return [
     'none' => 'None',
     'nav_login' => 'Sign in',
     'nav_dashboard' => 'Dashboard',
+    'team_mail_not_configured' => 'Email is not set up, so the invitation cannot be sent.',
+    'contact_platform_admin' => 'Contact T3al support to enable email sending.',
+    'mail_not_configured' => 'Enter the SMTP settings and save them before sending.',
 ];

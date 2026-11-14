@@ -32,7 +32,7 @@ class CardController extends Controller
 
     public function addToAppleWallet(LoyaltyCard $card, SyncAppleWalletPass $syncAppleWalletPass): RedirectResponse
     {
-        abort_unless(AppleWallet::isConfigured(), 404);
+        abort_unless(AppleWallet::isConfigured() && $card->loyaltyProgram->merchant->hasFeature('apple_wallet'), 404);
 
         $pass = $card->firstApplePass() ?? $syncAppleWalletPass->handle($card);
 
@@ -41,7 +41,7 @@ class CardController extends Controller
 
     public function addToGoogleWallet(LoyaltyCard $card, SyncGoogleWalletPass $syncGoogleWalletPass): RedirectResponse
     {
-        abort_unless(GoogleWallet::isConfigured(), 404);
+        abort_unless(GoogleWallet::isConfigured() && $card->loyaltyProgram->merchant->hasFeature('google_wallet'), 404);
 
         return redirect()->away($syncGoogleWalletPass->create($card)->addToWalletUrl());
     }

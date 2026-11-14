@@ -284,4 +284,7 @@ return [
     'none' => 'بدون',
     'nav_login' => 'تسجيل الدخول',
     'nav_dashboard' => 'لوحة التحكم',
+    'team_mail_not_configured' => 'خدمة البريد غير مفعّلة، لا يمكن إرسال الدعوة.',
+    'contact_platform_admin' => 'تواصل مع إدارة T3al لتفعيل إرسال البريد.',
+    'mail_not_configured' => 'أدخل إعدادات SMTP ثم احفظها قبل الإرسال.',
 ];

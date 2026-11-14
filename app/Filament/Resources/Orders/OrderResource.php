@@ -94,13 +94,19 @@ class OrderResource extends Resource
                     ->icon(Heroicon::OutlinedCheckCircle)
                     ->color('success')
                     ->visible(fn (Order $record): bool => $record->status === OrderStatus::Preparing)
-                    ->action(fn (Order $record) => $record->markReady()),
+                    ->action(function (Order $record): void {
+                        abort_unless(static::canAccess(), 403);
+                        $record->markReady();
+                    }),
                 Action::make('markCollected')
                     ->label(__('app.order_mark_collected'))
                     ->icon(Heroicon::OutlinedHandRaised)
                     ->color('gray')
                     ->visible(fn (Order $record): bool => $record->status === OrderStatus::Ready)
-                    ->action(fn (Order $record) => $record->markCollected()),
+                    ->action(function (Order $record): void {
+                        abort_unless(static::canAccess(), 403);
+                        $record->markCollected();
+                    }),
             ])
             ->toolbarActions([]);
     }

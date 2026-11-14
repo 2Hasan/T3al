@@ -106,6 +106,12 @@ class MailSettings extends Page
         // Use the saved settings, not whatever is typed but not yet saved.
         ApplyMailSettings::apply();
 
+        if (! ApplyMailSettings::isConfigured()) {
+            Notification::make()->title(__('app.mail_test_failed'))->body(__('app.mail_not_configured'))->danger()->send();
+
+            return;
+        }
+
         try {
             Mail::raw(__('app.mail_test_body'), function ($message) use ($email): void {
                 $message->to($email)->subject(__('app.mail_test_subject'));

@@ -37,6 +37,8 @@ class ManageOrders extends ManageRecords
                         ->maxLength(200),
                 ])
                 ->action(function (array $data): void {
+                    abort_unless(OrderResource::canAccess(), 403);
+
                     /** @var Merchant $shop */
                     $shop = Filament::getTenant();
 

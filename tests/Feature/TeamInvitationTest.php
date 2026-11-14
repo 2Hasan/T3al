@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use App\Enums\MerchantRole;
 use App\Filament\Pages\Team;
 use App\Mail\TeamInvitation;
+use App\Models\AppSetting;
 use App\Models\Invitation;
 use App\Models\Merchant;
 use App\Models\User;
@@ -55,6 +56,7 @@ class TeamInvitationTest extends TestCase
     public function test_the_owner_invites_by_email_and_the_invitation_is_emailed(): void
     {
         Mail::fake();
+        AppSetting::storeMail(['host' => 'smtp.example.com', 'port' => 587, 'encryption' => 'tls', 'from_address' => 'hello@example.com', 'from_name' => 'T3al']);
         $merchant = Merchant::factory()->create();
         $owner = $this->memberOf($merchant, MerchantRole::Owner);
         $this->actingInPanel($owner, $merchant);
