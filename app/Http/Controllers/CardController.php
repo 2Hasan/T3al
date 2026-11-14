@@ -25,8 +25,8 @@ class CardController extends Controller
             'card' => $card,
             'program' => $card->loyaltyProgram,
             'merchant' => $card->loyaltyProgram->merchant,
-            'appleWalletEnabled' => AppleWallet::isConfigured(),
-            'googleWalletEnabled' => GoogleWallet::isConfigured(),
+            'appleWalletEnabled' => AppleWallet::isConfigured() && $card->loyaltyProgram->merchant->hasFeature('apple_wallet'),
+            'googleWalletEnabled' => GoogleWallet::isConfigured() && $card->loyaltyProgram->merchant->hasFeature('google_wallet'),
         ]);
     }
 

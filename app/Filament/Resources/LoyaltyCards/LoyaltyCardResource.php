@@ -4,9 +4,11 @@ namespace App\Filament\Resources\LoyaltyCards;
 
 use App\Filament\Resources\LoyaltyCards\Pages\ManageLoyaltyCards;
 use App\Models\LoyaltyCard;
+use App\Models\Merchant;
 use App\Support\BahrainPhone;
 use BackedEnum;
 use Filament\Actions\ViewAction;
+use Filament\Facades\Filament;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Resources\Resource;
 use Filament\Schemas\Components\Section;
@@ -27,6 +29,19 @@ class LoyaltyCardResource extends Resource
     protected static ?string $model = LoyaltyCard::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedUsers;
+
+    public static function canAccess(): bool
+    {
+        if (! parent::canAccess()) {
+            return false;
+        }
+
+        $shop = Filament::getTenant();
+
+        return $shop instanceof Merchant
+            && $shop->isOperational()
+            && $shop->hasFeature('loyalty_cards');
+    }
 
     public static function getModelLabel(): string
     {

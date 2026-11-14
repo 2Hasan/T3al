@@ -33,7 +33,11 @@ class ScanCard extends Page
 
     public static function canAccess(): bool
     {
-        return Filament::getTenant()?->isOperational() ?? false;
+        $shop = Filament::getTenant();
+
+        return $shop instanceof Merchant
+            && $shop->isOperational()
+            && $shop->hasFeature('cashier_scan');
     }
 
     public function getTitle(): string
