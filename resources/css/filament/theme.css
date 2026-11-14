@@ -90,6 +90,52 @@ html[dir='rtl'] {
 }
 
 /*
+ * Panel canvas, matching the marketing site: a cream page, white surfaces and
+ * ink headings in light mode. Dark mode keeps Filament's own palette.
+ */
+html:not(.dark) .fi-body {
+    background-color: var(--color-cream);
+}
+
+html:not(.dark) .fi-topbar > nav {
+    background-color: rgb(255 255 255 / 0.92);
+    backdrop-filter: blur(12px);
+}
+
+html:not(.dark) .fi-sidebar {
+    background-color: rgb(255 255 255 / 0.96);
+}
+
+html:not(.dark) .fi-main-ctn .fi-header-heading {
+    color: var(--color-ink);
+    font-weight: 900;
+    letter-spacing: -0.02em;
+}
+
+/* Active sidebar item: a soft amber wash with ink text, like the brand accents. */
+.fi-sidebar-item.fi-active > .fi-sidebar-item-btn {
+    background-color: color-mix(in oklab, var(--color-brand) 16%, transparent);
+    font-weight: 700;
+}
+
+/* Stat tiles: rounder, with the big number carrying the hierarchy. */
+.fi-wi-stats-overview-stat {
+    border-radius: 1.25rem;
+    box-shadow: 0 0 0 1px rgb(28 25 23 / 0.06), 0 10px 28px -22px rgb(28 25 23 / 0.45);
+}
+
+.fi-wi-stats-overview-stat-value {
+    font-weight: 900;
+    letter-spacing: -0.02em;
+}
+
+/* Login card sits on the cream canvas with the same soft shadow as the sections. */
+.fi-simple-main {
+    border-radius: 1.5rem;
+    box-shadow: 0 0 0 1px rgb(28 25 23 / 0.06), 0 24px 48px -32px rgb(28 25 23 / 0.35);
+}
+
+/*
  * 44px minimum tap targets on phones, for the controls Filament renders:
  * topbar and user menu, the sidebar toggle and sidebar items, the sidebar
  * group headings and their collapse controls, icon buttons, buttons and inputs.

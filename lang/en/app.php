@@ -205,4 +205,8 @@ return [
     'skip_to_content' => 'Skip to content',
     'stamp_collected' => 'Stamp collected',
     'stamp_empty' => 'Stamp not collected yet',
+    'hero_welcome' => 'Welcome, :name',
+    'hero_admin_subtitle' => 'A quick view of the platform, shops and revenue.',
+    'hero_shop_subtitle' => 'Your customers’ stamps and loyalty cards in one place.',
+    'hero_platform' => 'Platform dashboard',
 ];

@@ -4,8 +4,10 @@ namespace App\Providers\Filament;
 
 use App\Filament\Pages\Tenancy\RegisterMerchant;
 use App\Filament\Widgets\LoyaltyStats;
+use App\Filament\Widgets\PanelHero;
 use App\Models\Merchant;
 use App\Support\Brand;
+use App\Support\InitialsAvatarProvider;
 use Filament\FontProviders\GoogleFontProvider;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
@@ -35,6 +37,9 @@ class MerchantPanelProvider extends PanelProvider
             ->path('app')
             ->domain(config('t3al.domains.panel') ?: null)
             ->brandName('T3al')
+            ->brandLogo(view('filament.brand'))
+            ->brandLogoHeight('2.25rem')
+            ->defaultAvatarProvider(InitialsAvatarProvider::class)
             ->font('Inter', url: Brand::FONTS_URL, provider: GoogleFontProvider::class)
             ->viteTheme('resources/css/filament/theme.css')
             ->login()
@@ -47,7 +52,7 @@ class MerchantPanelProvider extends PanelProvider
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\Filament\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\Filament\Pages')
             ->pages([Dashboard::class])
-            ->widgets([LoyaltyStats::class])
+            ->widgets([PanelHero::class, LoyaltyStats::class])
             ->middleware([
                 EncryptCookies::class,
                 AddQueuedCookiesToResponse::class,
