@@ -28,10 +28,10 @@ No subdomains are needed. The `T3AL_*_DOMAIN` values in `.env` stay empty, which
 
 1. Plesk > Git > add repository `https://github.com/2Hasan/T3al`, branch `main`.
 2. If the repo is private, add the Plesk SSH public key to GitHub as a deploy key first.
-3. Under "Additional deployment actions", add:
+3. Under "Additional deployment actions", add (use the PHP 8.3 path from section 2):
 
    ```bash
-   bash deploy/plesk-deploy.sh
+   PHP_BIN=/opt/plesk/php/8.3/bin/php bash deploy/plesk-deploy.sh
    ```
 
 4. Turn on automatic deployment, or deploy by hand from Plesk.
@@ -51,7 +51,7 @@ The script installs dependencies without dev packages, builds the front end, run
 
 ## 5. First deploy
 
-1. Run the deploy script (Plesk deploy, or `bash deploy/plesk-deploy.sh` over SSH).
+1. Run the deploy script (Plesk deploy, or `PHP_BIN=/opt/plesk/php/8.3/bin/php bash deploy/plesk-deploy.sh` over SSH).
 2. Create the first admin user. Do not run `db:seed` on production, because the seeder creates demo accounts with the password `password`:
 
    ```bash
