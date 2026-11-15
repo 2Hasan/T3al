@@ -25,14 +25,14 @@ class CardController extends Controller
             'card' => $card,
             'program' => $card->loyaltyProgram,
             'merchant' => $card->loyaltyProgram->merchant,
-            'appleWalletEnabled' => AppleWallet::isConfigured() && $card->loyaltyProgram->merchant->hasFeature('apple_wallet'),
-            'googleWalletEnabled' => GoogleWallet::isConfigured() && $card->loyaltyProgram->merchant->hasFeature('google_wallet'),
+            'appleWalletEnabled' => AppleWallet::isConfigured() && $card->loyaltyProgram->merchant->hasFeature('loyalty_cards'),
+            'googleWalletEnabled' => GoogleWallet::isConfigured() && $card->loyaltyProgram->merchant->hasFeature('loyalty_cards'),
         ]);
     }
 
     public function addToAppleWallet(LoyaltyCard $card, SyncAppleWalletPass $syncAppleWalletPass): RedirectResponse
     {
-        abort_unless(AppleWallet::isConfigured() && $card->loyaltyProgram->merchant->hasFeature('apple_wallet'), 404);
+        abort_unless(AppleWallet::isConfigured() && $card->loyaltyProgram->merchant->hasFeature('loyalty_cards'), 404);
 
         $pass = $card->firstApplePass() ?? $syncAppleWalletPass->handle($card);
 
@@ -41,7 +41,7 @@ class CardController extends Controller
 
     public function addToGoogleWallet(LoyaltyCard $card, SyncGoogleWalletPass $syncGoogleWalletPass): RedirectResponse
     {
-        abort_unless(GoogleWallet::isConfigured() && $card->loyaltyProgram->merchant->hasFeature('google_wallet'), 404);
+        abort_unless(GoogleWallet::isConfigured() && $card->loyaltyProgram->merchant->hasFeature('loyalty_cards'), 404);
 
         return redirect()->away($syncGoogleWalletPass->create($card)->addToWalletUrl());
     }
