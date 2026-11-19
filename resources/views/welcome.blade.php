@@ -69,7 +69,7 @@
                 @php($demoStamps = 7)
                 <div class="reveal relative mx-auto w-full max-w-sm" style="--d: 150ms" aria-hidden="true">
                     <div class="pointer-events-none absolute -inset-10 -z-10 rounded-full bg-brand/30 blur-3xl"></div>
-                    <div class="motion-safe:animate-float relative rounded-[28px] bg-linear-to-br from-[#2a1d12] via-ink to-[#0c0a09] p-7 text-cream shadow-2xl ring-1 ring-white/10">
+                    <div class="motion-safe:animate-float relative rounded-[28px] bg-linear-to-br from-[#1F3530] via-ink to-[#0c0a09] p-7 text-cream shadow-2xl ring-1 ring-white/10">
                         <div class="flex items-start justify-between gap-4">
                             <div class="min-w-0">
                                 <p class="text-xs font-semibold tracking-widest text-cream/80 uppercase">Seef Cafe</p>
@@ -169,7 +169,7 @@
                             @endforeach
                         </ul>
                     </div>
-                    <div class="surface-brand rounded-3xl bg-linear-to-br from-brand to-[#D9BC93] p-8 text-center text-ink shadow-xl shadow-brand/30">
+                    <div class="surface-brand rounded-3xl bg-linear-to-br from-brand to-[#C4E5D3] p-8 text-center text-ink shadow-xl shadow-brand/30">
                         <p class="text-5xl font-black tracking-tight sm:text-6xl">{{ __('app.pricing_price') }}</p>
                         <p class="mt-2 font-semibold">{{ __('app.pricing_unit') }}</p>
                         <a href="{{ url('/app') }}" class="mt-8 inline-flex min-h-14 w-full items-center justify-center rounded-2xl bg-ink px-6 font-bold text-cream motion-safe:transition-transform motion-safe:hover:-translate-y-0.5">

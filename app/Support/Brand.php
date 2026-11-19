@@ -17,22 +17,22 @@ final class Brand
     public const FONTS_URL = 'https://fonts.googleapis.com/css2?family=Inter:wght@400..900&family=Tajawal:wght@400;500;700;800;900&display=swap';
 
     /**
-     * Amber scale for Filament. 500 is the brand sand (#C9A77C) and fills primary
+     * Amber scale for Filament. 500 is the brand sage green (#A9D6BD) and fills primary
      * buttons with ink labels (section 3). The darker steps are used for text and
      * focus states that need contrast on light surfaces.
      */
     public const PANEL_PRIMARY = [
-        50 => '#FCFAF7',
-        100 => '#F7F3ED',
-        200 => '#F1E8DD',
-        300 => '#E9DCCB',
-        400 => '#D9C1A3',
-        500 => '#C9A77C',
-        600 => '#7D6246',
-        700 => '#66503A',
-        800 => '#4F3F2D',
-        900 => '#382F23',
-        950 => '#1E1913',
+        50 => '#F4FAF7',
+        100 => '#E6F4EC',
+        200 => '#CDEAD9',
+        300 => '#B9DFC9',
+        400 => '#B0DBC3',
+        500 => '#A9D6BD',
+        600 => '#2F5F55',
+        700 => '#264D45',
+        800 => '#1D3B35',
+        900 => '#152B26',
+        950 => '#0B1816',
     ];
 
     /**

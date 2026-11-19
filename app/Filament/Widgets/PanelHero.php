@@ -7,7 +7,7 @@ use Filament\Widgets\Widget;
 
 /**
  * Greeting card at the top of each dashboard. It uses the same dark surface and
- * amber accent as the marketing hero, so the panels feel like the same product.
+ * green accent as the marketing hero, so the panels feel like the same product.
  */
 class PanelHero extends Widget
 {

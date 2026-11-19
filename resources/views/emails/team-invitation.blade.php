@@ -7,7 +7,7 @@
             <h1 style="margin:0 0 12px;font-size:22px;font-weight:900;">{{ __('app.invite_mail_heading', ['shop' => $invitation->merchant->name]) }}</h1>
             <p style="margin:0 0 24px;line-height:1.7;color:#6B645D;">{{ __('app.invite_mail_body', ['inviter' => $invitation->inviter?->name ?? 'T3al']) }}</p>
             <p style="margin:0 0 28px;text-align:center;">
-                <a href="{{ $acceptUrl }}" style="display:inline-block;background:#C9A77C;color:#2E2A27;text-decoration:none;font-weight:800;padding:14px 28px;border-radius:14px;">{{ __('app.invite_mail_cta') }}</a>
+                <a href="{{ $acceptUrl }}" style="display:inline-block;background:#A9D6BD;color:#2E2A27;text-decoration:none;font-weight:800;padding:14px 28px;border-radius:14px;">{{ __('app.invite_mail_cta') }}</a>
             </p>
             <p style="margin:0;font-size:13px;line-height:1.6;color:#6B645D;">{{ __('app.invite_mail_expiry', ['days' => \App\Models\Invitation::VALID_DAYS]) }}</p>
         </div>
