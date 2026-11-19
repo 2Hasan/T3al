@@ -68,6 +68,11 @@ class PlanResource extends Resource
             CheckboxList::make('features')
                 ->label(__('app.plan_features'))
                 ->options(PlanFeatures::options())
+                // Plans saved before a feature was retired can still hold its old key.
+                // Keep only the keys the form offers, so the form does not fail validation.
+                ->afterStateHydrated(function (CheckboxList $component, mixed $state): void {
+                    $component->state(array_values(array_intersect((array) $state, array_keys(PlanFeatures::options()))));
+                })
                 ->columns(2)
                 ->required(),
             Toggle::make('is_active')

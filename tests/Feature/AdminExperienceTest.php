@@ -100,4 +100,18 @@ class AdminExperienceTest extends TestCase
 
         $this->assertSame(MerchantStatus::Active, $shop->refresh()->status);
     }
+
+    public function test_a_plan_with_a_retired_feature_key_can_still_be_saved(): void
+    {
+        $this->actingAs($this->admin());
+        $plan = Plan::factory()->create(['features' => ['loyalty_cards', 'apple_wallet']]);
+
+        Livewire::test(ManagePlans::class)
+            ->mountTableAction('edit', $plan)
+            ->assertHasNoTableActionErrors()
+            ->callMountedTableAction()
+            ->assertHasNoFormErrors();
+
+        $this->assertSame(['loyalty_cards'], $plan->fresh()->features);
+    }
 }
