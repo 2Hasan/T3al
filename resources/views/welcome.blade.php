@@ -47,7 +47,7 @@
             <section class="mx-auto grid max-w-6xl items-center gap-12 px-4 pt-12 pb-20 sm:px-6 md:grid-cols-2 md:pt-20 lg:pt-24">
                 <div class="reveal text-center md:text-start">
                     <p class="inline-flex max-w-full items-center gap-2 rounded-full border border-ink/10 bg-white px-4 py-2 text-xs font-semibold text-ink-soft shadow-sm">
-                        <span class="size-1.5 shrink-0 rounded-full bg-teal" aria-hidden="true"></span>
+                        <span class="size-1.5 shrink-0 rounded-full bg-teal-deep" aria-hidden="true"></span>
                         {{ __('app.hero_eyebrow') }}
                     </p>
                     <h1 class="mt-6 text-balance text-4xl leading-[1.15] font-black tracking-tight sm:text-5xl lg:text-6xl">
@@ -93,7 +93,7 @@
 
                         <div class="mt-7 flex items-center justify-between gap-4 rounded-2xl bg-white/5 px-4 py-3 ring-1 ring-white/10">
                             <span class="text-sm text-cream/85">{{ __('app.hero_reward') }}</span>
-                            <span class="rounded-full bg-teal px-3 py-1 text-xs font-bold text-cream">3 / 10</span>
+                            <span class="rounded-full bg-teal px-3 py-1 text-xs font-bold text-ink">3 / 10</span>
                         </div>
                     </div>
 
@@ -161,7 +161,7 @@
                         <ul class="mt-8 space-y-4 text-ink">
                             @foreach (['1', '2', '3'] as $n)
                                 <li class="flex items-start gap-3">
-                                    <span class="mt-0.5 flex size-6 shrink-0 items-center justify-center rounded-full bg-teal text-cream" aria-hidden="true">
+                                    <span class="mt-0.5 flex size-6 shrink-0 items-center justify-center rounded-full bg-teal text-ink" aria-hidden="true">
                                         <svg viewBox="0 0 24 24" class="size-3.5" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 4.5 4.5L19 7"/></svg>
                                     </span>
                                     <span>{{ __('app.pricing_'.$n) }}</span>
@@ -181,7 +181,7 @@
 
             {{-- Final call --}}
             <section class="mx-auto max-w-6xl px-4 pb-20 sm:px-6 md:pb-24">
-                <div class="reveal surface-teal relative isolate overflow-hidden rounded-[32px] bg-teal px-6 py-16 text-center text-cream sm:px-8">
+                <div class="reveal surface-teal relative isolate overflow-hidden rounded-[32px] bg-teal px-6 py-16 text-center text-ink sm:px-8">
                     <div class="pointer-events-none absolute -top-24 -end-24 -z-10 size-72 rounded-full bg-white/10 blur-2xl" aria-hidden="true"></div>
                     <h2 class="relative text-balance text-3xl font-black tracking-tight sm:text-5xl">{{ __('app.final_title') }}</h2>
                     <a href="{{ url('/app') }}" class="relative mt-8 inline-flex min-h-14 items-center justify-center rounded-2xl bg-brand px-8 text-lg font-bold text-ink motion-safe:transition-transform motion-safe:hover:-translate-y-0.5">

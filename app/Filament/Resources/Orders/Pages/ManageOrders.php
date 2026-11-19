@@ -53,12 +53,6 @@ class ManageOrders extends ManageRecords
 
                     $number = (int) $data['number'];
 
-                    if (OrderResource::numberTakenToday($shop, $number)) {
-                        Notification::make()->title(__('app.order_number_taken', ['number' => $number]))->danger()->send();
-
-                        throw new Halt;
-                    }
-
                     $card = OrderResource::findCard($shop, $data['lookup']);
 
                     if ($card === null) {

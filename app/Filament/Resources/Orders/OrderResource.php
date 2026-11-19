@@ -137,19 +137,4 @@ class OrderResource extends Resource
 
         return $card;
     }
-
-    /**
-     * Order numbers are typed by staff (the number on the paper ticket or the bag),
-     * so one shop cannot use the same number twice in a day.
-     */
-    public static function numberTakenToday(Merchant $shop, int $number): bool
-    {
-        $start = now($shop->timezone)->startOfDay()->utc();
-
-        return Order::query()
-            ->where('merchant_id', $shop->id)
-            ->where('created_at', '>=', $start)
-            ->where('number', $number)
-            ->exists();
-    }
 }

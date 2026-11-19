@@ -20,7 +20,7 @@ html[dir='rtl'] {
 }
 
 :focus-visible {
-    outline: 3px solid var(--color-teal);
+    outline: 3px solid var(--color-teal-deep);
     outline-offset: 3px;
 }
 
@@ -33,7 +33,7 @@ html[dir='rtl'] {
 }
 
 .surface-teal :focus-visible {
-    outline-color: var(--color-cream);
+    outline-color: var(--color-ink);
 }
 
 .skip-link {

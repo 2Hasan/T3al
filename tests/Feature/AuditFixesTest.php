@@ -6,12 +6,10 @@ use App\Enums\MerchantRole;
 use App\Filament\Pages\ScanCard;
 use App\Filament\Pages\Team;
 use App\Filament\Resources\LoyaltyCards\LoyaltyCardResource;
-use App\Filament\Resources\Orders\OrderResource;
 use App\Models\AppSetting;
 use App\Models\LoyaltyCard;
 use App\Models\LoyaltyProgram;
 use App\Models\Merchant;
-use App\Models\Order;
 use App\Models\User;
 use Filament\Facades\Filament;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -123,14 +121,5 @@ class AuditFixesTest extends TestCase
         }
 
         $this->get("/c/{$card->code}")->assertStatus(429);
-    }
-
-    public function test_a_typed_order_number_cannot_repeat_within_the_day(): void
-    {
-        $shop = Merchant::factory()->create();
-        Order::factory()->create(['merchant_id' => $shop->id, 'number' => 4]);
-
-        $this->assertTrue(OrderResource::numberTakenToday($shop, 4));
-        $this->assertFalse(OrderResource::numberTakenToday($shop, 5));
     }
 }
