@@ -64,7 +64,7 @@ The script installs dependencies without dev packages, builds the front end, run
    ```
 
 3. Open `https://7assan.dev/admin` and go to **إعدادات البريد** (Email settings). Enter the SMTP host, port, encryption, username, password and the sender address, then save and send a test email. Team invitations cannot be sent until this works. Until then, shop owners see a message that email is not set up.
-4. Check each plan in the admin panel. Ready orders appear only for plans that include **طلبات الانتظار** (`order_queue`). Cashier scanning needs **شاشة الكاشير** (`cashier_scan`), and the card and programs pages need **بطاقات الولاء** (`loyalty_cards`).
+4. Check each plan in the admin panel. Ready orders appear only for plans that include **طلبات الانتظار** (`order_queue`). **بطاقات الولاء** (`loyalty_cards`) covers the loyalty cards, the cashier scan screen and the wallets.
 
 ## 6. Scheduler
 

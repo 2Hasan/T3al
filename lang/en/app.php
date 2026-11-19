@@ -131,7 +131,6 @@ return [
     'activate' => 'Activate shop',
     'payment' => 'Payment',
     'feature_loyalty_cards' => 'Loyalty cards',
-    'feature_cashier_scan' => 'Cashier scan screen',
     'feature_apple_wallet' => 'Apple Wallet',
     'feature_google_wallet' => 'Google Wallet',
     'feature_order_queue' => 'Order queue',

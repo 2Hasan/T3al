@@ -17,7 +17,6 @@ class PlanFeatures
     {
         return [
             'loyalty_cards',
-            'cashier_scan',
             'order_queue',
             'smart_offers',
             'analytics',

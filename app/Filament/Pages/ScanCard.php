@@ -38,7 +38,7 @@ class ScanCard extends Page
 
         return $shop instanceof Merchant
             && $shop->isOperational()
-            && $shop->hasFeature('cashier_scan');
+            && $shop->hasFeature('loyalty_cards');
     }
 
     public function getTitle(): string

@@ -21,7 +21,7 @@ class PlanFactory extends Factory
             'name' => ucfirst($name),
             'slug' => $name.'-'.fake()->unique()->numerify('###'),
             'price_per_branch' => '3.000',
-            'features' => ['loyalty_cards', 'cashier_scan'],
+            'features' => ['loyalty_cards'],
             'is_active' => true,
             'sort_order' => 0,
         ];

@@ -40,7 +40,7 @@ class AdminExperienceTest extends TestCase
     public function test_the_plans_list_renders_the_feature_count_for_each_plan(): void
     {
         $this->actingAs($this->admin());
-        $plan = Plan::factory()->create(['features' => ['loyalty_cards', 'cashier_scan', 'order_queue']]);
+        $plan = Plan::factory()->create(['features' => ['loyalty_cards', 'order_queue', 'smart_offers']]);
 
         Livewire::test(ManagePlans::class)
             ->assertOk()

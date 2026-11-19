@@ -41,16 +41,16 @@ class PlanFeaturesTest extends TestCase
 
     public function test_a_feature_missing_from_the_plan_hides_its_page(): void
     {
-        $shop = $this->shopWithFeatures(['loyalty_cards']);
+        $shop = $this->shopWithFeatures(['order_queue']);
         $this->actingInPanel($this->memberOf($shop, MerchantRole::Owner), $shop);
 
-        $this->assertFalse(OrderResource::canAccess(), 'Ready orders are not in this plan.');
-        $this->assertFalse(ScanCard::canAccess(), 'The till is not in this plan.');
+        $this->assertFalse(ScanCard::canAccess(), 'The till needs loyalty cards, which this plan lacks.');
+        $this->assertTrue(OrderResource::canAccess());
     }
 
     public function test_a_feature_in_the_plan_shows_its_page(): void
     {
-        $shop = $this->shopWithFeatures(['loyalty_cards', 'cashier_scan', 'order_queue']);
+        $shop = $this->shopWithFeatures(['loyalty_cards', 'order_queue']);
         $this->actingInPanel($this->memberOf($shop, MerchantRole::Staff), $shop);
 
         $this->assertTrue(OrderResource::canAccess());
@@ -69,6 +69,6 @@ class PlanFeaturesTest extends TestCase
     public function test_the_feature_keys_are_the_ones_the_plans_can_sell(): void
     {
         $this->assertContains('order_queue', PlanFeatures::keys());
-        $this->assertContains('cashier_scan', PlanFeatures::keys());
+        $this->assertNotContains('cashier_scan', PlanFeatures::keys(), 'Till access is part of loyalty cards now.');
     }
 }

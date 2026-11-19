@@ -128,7 +128,7 @@ class AuditFixesTest extends TestCase
 
     public function test_order_numbers_continue_from_the_highest_number_today(): void
     {
-        $plan = Plan::factory()->create(['features' => ['loyalty_cards', 'cashier_scan', 'order_queue']]);
+        $plan = Plan::factory()->create(['features' => ['loyalty_cards', 'order_queue']]);
         $shop = Merchant::factory()->create(['plan_id' => $plan->id]);
 
         Order::factory()->create(['merchant_id' => $shop->id, 'number' => 4]);

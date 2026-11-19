@@ -131,7 +131,6 @@ return [
     'activate' => 'تفعيل المحل',
     'payment' => 'دفعة',
     'feature_loyalty_cards' => 'بطاقات الولاء',
-    'feature_cashier_scan' => 'شاشة الكاشير ومسح البطاقات',
     'feature_apple_wallet' => 'Apple Wallet',
     'feature_google_wallet' => 'Google Wallet',
     'feature_order_queue' => 'طلبات الانتظار',

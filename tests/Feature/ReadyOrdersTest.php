@@ -21,7 +21,7 @@ class ReadyOrdersTest extends TestCase
 
     private function shop(): Merchant
     {
-        $plan = Plan::factory()->create(['features' => ['loyalty_cards', 'cashier_scan', 'order_queue']]);
+        $plan = Plan::factory()->create(['features' => ['loyalty_cards', 'order_queue']]);
 
         return Merchant::factory()->create(['plan_id' => $plan->id]);
     }
