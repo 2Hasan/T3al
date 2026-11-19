@@ -14,7 +14,7 @@ use Spatie\LaravelMobilePass\Models\MobilePass;
 
 #[Fillable([
     'merchant_id', 'loyalty_program_id', 'customer_id', 'code', 'stamps',
-    'rewards_available', 'lifetime_stamps', 'rewards_redeemed', 'last_visit_at',
+    'rewards_available', 'lifetime_stamps', 'rewards_redeemed', 'last_visit_at', 'birthday_bonus_at',
 ])]
 class LoyaltyCard extends Model
 {
@@ -32,6 +32,7 @@ class LoyaltyCard extends Model
             'lifetime_stamps' => 'integer',
             'rewards_redeemed' => 'integer',
             'last_visit_at' => 'datetime',
+            'birthday_bonus_at' => 'datetime',
         ];
     }
 

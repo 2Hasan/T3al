@@ -1,10 +1,10 @@
 @theme {
-    --color-brand: #F59E0B;
-    --color-ink: #1C1917;
-    --color-ink-soft: #57534E;
-    --color-cream: #FAF7F2;
-    --color-teal: #0F766E;
-    --color-danger: #B91C1C;
+    --color-brand: #C9A77C;
+    --color-ink: #2E2A27;
+    --color-ink-soft: #6B645D;
+    --color-cream: #F7F4EE;
+    --color-teal: #3D6A62;
+    --color-danger: #8B3F35;
 
     --font-sans: 'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
     --font-arabic: 'Tajawal', ui-sans-serif, system-ui, sans-serif;

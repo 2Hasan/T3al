@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="theme-color" content="#FAF7F2">
+        <meta name="theme-color" content="#F7F4EE">
         <title>{{ __('app.tagline') }} · T3al</title>
         <meta name="description" content="{{ __('app.description') }}">
         <x-font-links />
@@ -169,7 +169,7 @@
                             @endforeach
                         </ul>
                     </div>
-                    <div class="surface-brand rounded-3xl bg-linear-to-br from-brand to-amber-400 p-8 text-center text-ink shadow-xl shadow-brand/30">
+                    <div class="surface-brand rounded-3xl bg-linear-to-br from-brand to-[#D9BC93] p-8 text-center text-ink shadow-xl shadow-brand/30">
                         <p class="text-5xl font-black tracking-tight sm:text-6xl">{{ __('app.pricing_price') }}</p>
                         <p class="mt-2 font-semibold">{{ __('app.pricing_unit') }}</p>
                         <a href="{{ url('/app') }}" class="mt-8 inline-flex min-h-14 w-full items-center justify-center rounded-2xl bg-ink px-6 font-bold text-cream motion-safe:transition-transform motion-safe:hover:-translate-y-0.5">

@@ -23,7 +23,7 @@ class InitialsAvatarProvider implements AvatarProvider
         $initials = $initials !== '' ? $initials : '?';
 
         $svg = <<<SVG
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" rx="32" fill="#F59E0B"/><text x="50%" y="50%" dy=".35em" text-anchor="middle" font-family="Inter, Tajawal, sans-serif" font-size="26" font-weight="800" fill="#1C1917">{$initials}</text></svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" rx="32" fill="#C9A77C"/><text x="50%" y="50%" dy=".35em" text-anchor="middle" font-family="Inter, Tajawal, sans-serif" font-size="26" font-weight="800" fill="#2E2A27">{$initials}</text></svg>
 SVG;
 
         return 'data:image/svg+xml;base64,'.base64_encode($svg);

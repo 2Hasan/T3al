@@ -8,7 +8,7 @@ namespace App\Support;
  */
 final class Contrast
 {
-    private const INK = '#1C1917';
+    private const INK = '#2E2A27';
 
     private const WHITE = '#FFFFFF';
 

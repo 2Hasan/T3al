@@ -179,8 +179,12 @@ class ScanCard extends Page
         }
 
         $rewardsBefore = $card->rewards_available;
+        $lifetimeBefore = $card->lifetime_stamps;
         $card = $addStamp->handle($card, $this->staff(), $quantity);
         unset($this->card);
+
+        // Stamps beyond the scanned quantity came from an active offer.
+        $bonus = ($card->lifetime_stamps - $lifetimeBefore) - $quantity;
 
         if ($card->rewards_available > $rewardsBefore) {
             Notification::make()->title(__('app.reward_earned'))->success()->send();
@@ -190,6 +194,7 @@ class ScanCard extends Page
 
         Notification::make()
             ->title($quantity === 1 ? __('app.stamp_added') : __('app.stamps_added_many', ['count' => $quantity]))
+            ->body($bonus > 0 ? __('app.offer_bonus_applied', ['count' => $bonus]) : null)
             ->success()
             ->send();
     }

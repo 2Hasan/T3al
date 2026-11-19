@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="robots" content="noindex">
-        <meta name="theme-color" content="#FAF7F2">
+        <meta name="theme-color" content="#F7F4EE">
         <title>{{ $title ?? config('app.name') }}</title>
         <x-font-links />
         @vite(['resources/css/app.css'])

@@ -12,7 +12,6 @@ use App\Models\LoyaltyCard;
 use App\Models\LoyaltyProgram;
 use App\Models\Merchant;
 use App\Models\Order;
-use App\Models\Plan;
 use App\Models\User;
 use Filament\Facades\Filament;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -126,13 +125,12 @@ class AuditFixesTest extends TestCase
         $this->get("/c/{$card->code}")->assertStatus(429);
     }
 
-    public function test_order_numbers_continue_from_the_highest_number_today(): void
+    public function test_a_typed_order_number_cannot_repeat_within_the_day(): void
     {
-        $plan = Plan::factory()->create(['features' => ['loyalty_cards', 'order_queue']]);
-        $shop = Merchant::factory()->create(['plan_id' => $plan->id]);
-
+        $shop = Merchant::factory()->create();
         Order::factory()->create(['merchant_id' => $shop->id, 'number' => 4]);
 
-        $this->assertSame(5, OrderResource::nextNumber($shop));
+        $this->assertTrue(OrderResource::numberTakenToday($shop, 4));
+        $this->assertFalse(OrderResource::numberTakenToday($shop, 5));
     }
 }

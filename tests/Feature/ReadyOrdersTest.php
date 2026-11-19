@@ -42,12 +42,12 @@ class ReadyOrdersTest extends TestCase
         $this->actingInPanel($staff, $shop);
 
         Livewire::test(ManageOrders::class)
-            ->callAction('newOrder', ['lookup' => $card->code, 'note' => 'Latte, extra hot'])
+            ->callAction('newOrder', ['number' => 17, 'lookup' => $card->code, 'note' => 'Latte, extra hot'])
             ->assertHasNoActionErrors();
 
         $order = Order::sole();
         $this->assertSame($card->id, $order->loyalty_card_id);
-        $this->assertSame(1, $order->number);
+        $this->assertSame(17, $order->number);
         $this->assertSame(OrderStatus::Preparing, $order->status);
         $this->assertSame('Latte, extra hot', $order->note);
     }
@@ -60,7 +60,7 @@ class ReadyOrdersTest extends TestCase
         $this->actingInPanel($staff, $shop);
 
         Livewire::test(ManageOrders::class)
-            ->callAction('newOrder', ['lookup' => 'NOPE1234NOPE'])
+            ->callAction('newOrder', ['number' => 3, 'lookup' => 'NOPE1234NOPE'])
             ->assertHasNoActionErrors();
 
         $this->assertSame(0, Order::count());

@@ -28,6 +28,14 @@ class ManageOrders extends ManageRecords
                 ->modalHeading(__('app.order_new_heading'))
                 ->modalSubmitActionLabel(__('app.order_save'))
                 ->schema([
+                    TextInput::make('number')
+                        ->label(__('app.order_number'))
+                        ->helperText(__('app.order_number_help'))
+                        ->numeric()
+                        ->integer()
+                        ->minValue(1)
+                        ->maxValue(9999)
+                        ->required(),
                     TextInput::make('lookup')
                         ->label(__('app.order_lookup'))
                         ->helperText(__('app.order_lookup_help'))
@@ -43,6 +51,14 @@ class ManageOrders extends ManageRecords
                     /** @var Merchant $shop */
                     $shop = Filament::getTenant();
 
+                    $number = (int) $data['number'];
+
+                    if (OrderResource::numberTakenToday($shop, $number)) {
+                        Notification::make()->title(__('app.order_number_taken', ['number' => $number]))->danger()->send();
+
+                        throw new Halt;
+                    }
+
                     $card = OrderResource::findCard($shop, $data['lookup']);
 
                     if ($card === null) {
@@ -51,7 +67,7 @@ class ManageOrders extends ManageRecords
                         throw new Halt;
                     }
 
-                    DB::transaction(function () use ($shop, $card, $data): void {
+                    DB::transaction(function () use ($shop, $card, $data, $number): void {
                         // Lock the shop row so concurrent orders take turns computing the number.
                         Merchant::query()->whereKey($shop->id)->lockForUpdate()->first();
 
@@ -59,7 +75,7 @@ class ManageOrders extends ManageRecords
                             'merchant_id' => $shop->id,
                             'loyalty_card_id' => $card->id,
                             'created_by' => Filament::auth()->id(),
-                            'number' => OrderResource::nextNumber($shop),
+                            'number' => $number,
                             'note' => filled($data['note'] ?? null) ? $data['note'] : null,
                             'status' => OrderStatus::Preparing,
                         ]);

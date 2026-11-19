@@ -5,6 +5,7 @@ namespace App\Actions;
 use App\Enums\CardActivityType;
 use App\Models\LoyaltyCard;
 use App\Models\User;
+use App\Support\StampOffers;
 use Illuminate\Support\Facades\DB;
 use InvalidArgumentException;
 
@@ -26,22 +27,31 @@ class AddStamp
 
         $card = DB::transaction(function () use ($card, $staff, $quantity): LoyaltyCard {
             /** @var LoyaltyCard $locked */
-            $locked = LoyaltyCard::query()->with('loyaltyProgram')->lockForUpdate()->findOrFail($card->id);
+            $locked = LoyaltyCard::query()
+                ->with(['loyaltyProgram', 'merchant', 'customer'])
+                ->lockForUpdate()
+                ->findOrFail($card->id);
+
             $required = $locked->loyaltyProgram->stamps_required;
-            $total = $locked->stamps + $quantity;
+
+            // Offers are worked out before the last visit is updated, so win-back sees the old visit.
+            $offer = StampOffers::bonusFor($locked, $locked->merchant, $quantity, now());
+            $added = $quantity + $offer['bonus'];
+            $total = $locked->stamps + $added;
 
             $locked->update([
                 'stamps' => $total % $required,
                 'rewards_available' => $locked->rewards_available + intdiv($total, $required),
-                'lifetime_stamps' => $locked->lifetime_stamps + $quantity,
+                'lifetime_stamps' => $locked->lifetime_stamps + $added,
                 'last_visit_at' => now(),
+                'birthday_bonus_at' => $offer['birthday'] ? now() : $locked->birthday_bonus_at,
             ]);
 
             $locked->activities()->create([
                 'merchant_id' => $locked->merchant_id,
                 'user_id' => $staff->id,
                 'type' => CardActivityType::Stamp,
-                'quantity' => $quantity,
+                'quantity' => $added,
             ]);
 
             return $locked;

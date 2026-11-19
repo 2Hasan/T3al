@@ -139,15 +139,17 @@ class OrderResource extends Resource
     }
 
     /**
-     * Next order number for today in the shop's timezone. Numbers restart each day.
+     * Order numbers are typed by staff (the number on the paper ticket or the bag),
+     * so one shop cannot use the same number twice in a day.
      */
-    public static function nextNumber(Merchant $shop): int
+    public static function numberTakenToday(Merchant $shop, int $number): bool
     {
         $start = now($shop->timezone)->startOfDay()->utc();
 
-        return (int) Order::query()
+        return Order::query()
             ->where('merchant_id', $shop->id)
             ->where('created_at', '>=', $start)
-            ->max('number') + 1;
+            ->where('number', $number)
+            ->exists();
     }
 }
