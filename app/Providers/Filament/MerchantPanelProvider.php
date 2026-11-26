@@ -5,6 +5,8 @@ namespace App\Providers\Filament;
 use App\Filament\Pages\Tenancy\RegisterMerchant;
 use App\Filament\Widgets\LoyaltyStats;
 use App\Filament\Widgets\PanelHero;
+use App\Filament\Widgets\QuickActions;
+use App\Filament\Widgets\TodayActivity;
 use App\Models\Merchant;
 use App\Support\Brand;
 use App\Support\InitialsAvatarProvider;
@@ -52,7 +54,7 @@ class MerchantPanelProvider extends PanelProvider
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\Filament\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\Filament\Pages')
             ->pages([Dashboard::class])
-            ->widgets([PanelHero::class, LoyaltyStats::class])
+            ->widgets([PanelHero::class, QuickActions::class, LoyaltyStats::class, TodayActivity::class])
             ->middleware([
                 EncryptCookies::class,
                 AddQueuedCookiesToResponse::class,

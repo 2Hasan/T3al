@@ -146,6 +146,11 @@ html:not(.dark) .fi-main-ctn .fi-header-heading {
  * group headings and their collapse controls, icon buttons, buttons and inputs.
  */
 @media (max-width: 40rem) {
+    /* Room for the bottom navigation so the last item is never hidden behind it. */
+    .fi-main {
+        padding-bottom: 6rem;
+    }
+
     /* Filament hides the brand in the topbar below desktop width. Keep the mark on phones. */
     .fi-topbar-start {
         display: flex;
