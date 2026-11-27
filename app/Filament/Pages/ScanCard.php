@@ -6,6 +6,7 @@ use App\Actions\AddStamp;
 use App\Actions\IssueLoyaltyCard;
 use App\Actions\RedeemReward;
 use App\Exceptions\NoRewardAvailable;
+use App\Models\CardActivity;
 use App\Models\LoyaltyCard;
 use App\Models\Merchant;
 use App\Models\User;
@@ -19,6 +20,7 @@ use Filament\Forms\Components\TextInput;
 use Filament\Notifications\Notification;
 use Filament\Pages\Page;
 use Filament\Support\Icons\Heroicon;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\RateLimiter;
 use Livewire\Attributes\Computed;
 
@@ -277,6 +279,23 @@ class ScanCard extends Page
         RateLimiter::hit($key, 60);
 
         return true;
+    }
+
+    /**
+     * The last few stamps and rewards at this shop, shown while no card is open
+     * so the till never looks empty.
+     *
+     * @return Collection<int, CardActivity>
+     */
+    #[Computed]
+    public function recentActivities(): Collection
+    {
+        return CardActivity::query()
+            ->where('merchant_id', $this->merchant()->id)
+            ->with('loyaltyCard.customer')
+            ->latest('id')
+            ->limit(6)
+            ->get();
     }
 
     protected function merchant(): Merchant

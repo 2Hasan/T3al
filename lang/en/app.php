@@ -339,4 +339,8 @@ return [
     'nav_home' => 'Home',
     'nav_profile' => 'Account',
     'days_remaining_header' => 'Remaining',
+    'find_a_card' => 'Find a card',
+    'find_a_card_help' => 'Type the card number or the customer phone, or scan the code with the camera.',
+    'recent_stamps' => 'Recent stamps',
+    'recent_stamps_help' => 'The latest activity at this shop.',
 ];

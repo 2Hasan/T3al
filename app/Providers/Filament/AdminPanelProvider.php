@@ -38,7 +38,7 @@ class AdminPanelProvider extends PanelProvider
             ->font('Inter', url: Brand::FONTS_URL, provider: GoogleFontProvider::class)
             ->viteTheme('resources/css/filament/theme.css')
             ->login()
-            ->colors(['primary' => Brand::PANEL_PRIMARY, 'danger' => Brand::PANEL_DANGER])
+            ->colors(['primary' => Brand::PANEL_PRIMARY, 'danger' => Brand::PANEL_DANGER, 'success' => Brand::PANEL_SUCCESS])
             ->widgets([PanelHero::class])
             ->discoverResources(in: app_path('Filament/Admin/Resources'), for: 'App\Filament\Admin\Resources')
             ->discoverWidgets(in: app_path('Filament/Admin/Widgets'), for: 'App\Filament\Admin\Widgets')

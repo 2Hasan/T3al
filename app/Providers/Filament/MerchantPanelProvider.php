@@ -50,7 +50,7 @@ class MerchantPanelProvider extends PanelProvider
             ->profile()
             ->tenant(Merchant::class, slugAttribute: 'slug')
             ->tenantRegistration(RegisterMerchant::class)
-            ->colors(['primary' => Brand::PANEL_PRIMARY, 'danger' => Brand::PANEL_DANGER])
+            ->colors(['primary' => Brand::PANEL_PRIMARY, 'danger' => Brand::PANEL_DANGER, 'success' => Brand::PANEL_SUCCESS])
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\Filament\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\Filament\Pages')
             ->pages([Dashboard::class])

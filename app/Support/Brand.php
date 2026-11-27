@@ -52,4 +52,22 @@ final class Brand
         900 => '#421F1A',
         950 => '#2A1210',
     ];
+
+    /**
+     * Green scale for success actions (redeem, confirm). 600 is a deep sage that
+     * carries white labels at AA contrast.
+     */
+    public const PANEL_SUCCESS = [
+        50 => '#F2F8F6',
+        100 => '#E0EFEA',
+        200 => '#C2E0D6',
+        300 => '#9ACBBD',
+        400 => '#6CAF9D',
+        500 => '#4A8F7E',
+        600 => '#2F5F55',
+        700 => '#264D45',
+        800 => '#1D3B35',
+        900 => '#152B26',
+        950 => '#0B1816',
+    ];
 }

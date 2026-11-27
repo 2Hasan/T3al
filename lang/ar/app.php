@@ -339,4 +339,8 @@ return [
     'nav_home' => 'الرئيسية',
     'nav_profile' => 'حسابي',
     'days_remaining_header' => 'المتبقي',
+    'find_a_card' => 'ابحث عن البطاقة',
+    'find_a_card_help' => 'اكتب رقم البطاقة أو جوال الزبون، أو امسح الرمز بالكاميرا.',
+    'recent_stamps' => 'آخر الأختام',
+    'recent_stamps_help' => 'آخر ما انسجل في المحل.',
 ];
