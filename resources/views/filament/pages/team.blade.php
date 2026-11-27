@@ -1,5 +1,5 @@
 <x-filament-panels::page>
-    <div class="grid gap-6 lg:grid-cols-2">
+    <div class="grid grid-cols-1 gap-6">
         <section class="rounded-[1.25rem] bg-white p-6 shadow-sm ring-1 ring-ink/10 dark:bg-gray-900 dark:ring-white/10">
             <h2 class="text-lg font-black">{{ __('app.team_members') }}</h2>
             <ul class="mt-4 divide-y divide-ink/10 dark:divide-white/10">

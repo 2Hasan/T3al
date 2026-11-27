@@ -20,6 +20,7 @@ use Filament\Forms\Components\TextInput;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Notifications\Notification;
 use Filament\Resources\Resource;
+use Filament\Schemas\Components\Group;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
@@ -96,18 +97,40 @@ class MerchantResource extends Resource
 
     public static function infolist(Schema $schema): Schema
     {
-        return $schema->components([
-            Section::make(__('app.section_shop'))
-                ->columns(2)
-                ->schema([
-                    TextEntry::make('name')->label(__('app.shop_name')),
-                    TextEntry::make('slug')->label(__('app.slug'))->copyable(),
-                    TextEntry::make('owners')
-                        ->label(__('app.owners'))
-                        ->state(fn (Merchant $record): string => $record->users()->wherePivot('role', 'owner')->pluck('name')->join(', ') ?: '—'),
-                    TextEntry::make('created_at')->label(__('app.joined'))->date(),
-                ]),
+        return $schema->columns(['default' => 1, 'lg' => 2])->components([
+            Group::make([
+                Section::make(__('app.section_shop'))
+                    ->extraAttributes(['class' => 'h-full'])
+                    ->columns(2)
+                    ->schema([
+                        TextEntry::make('name')->label(__('app.shop_name')),
+                        TextEntry::make('slug')->label(__('app.slug'))->copyable(),
+                        TextEntry::make('owners')
+                            ->label(__('app.owners'))
+                            ->state(fn (Merchant $record): string => $record->users()->wherePivot('role', 'owner')->pluck('name')->join(', ') ?: '—'),
+                        TextEntry::make('created_at')->label(__('app.joined'))->date(),
+                    ]),
+                Section::make(__('app.section_activity'))
+                    ->columns(3)
+                    ->columnSpanFull()
+                    ->schema([
+                        TextEntry::make('customers_count')
+                            ->label(__('app.customers'))
+                            ->state(fn (Merchant $record): int => $record->customers()->count()),
+                        TextEntry::make('stamps_30')
+                            ->label(__('app.stamps_last_30'))
+                            ->state(fn (Merchant $record): int => (int) $record->cardActivities()
+                                ->where('created_at', '>=', now()->subDays(30))
+                                ->sum('quantity')),
+                        TextEntry::make('last_activity')
+                            ->label(__('app.last_activity'))
+                            ->state(fn (Merchant $record): ?Carbon => $record->cardActivities()->latest('created_at')->value('created_at'))
+                            ->since()
+                            ->placeholder('—'),
+                    ]),
+            ]),
             Section::make(__('app.section_billing'))
+                ->extraAttributes(['class' => 'h-full'])
                 ->columns(2)
                 ->schema([
                     TextEntry::make('plan.name')->label(__('app.plan'))->placeholder(__('app.no_plan')),
@@ -128,23 +151,6 @@ class MerchantResource extends Resource
                         ->label(__('app.period_ends'))
                         ->state(fn (Merchant $record): ?Carbon => $record->periodEndsAt())
                         ->date()
-                        ->placeholder('—'),
-                ]),
-            Section::make(__('app.section_activity'))
-                ->columns(3)
-                ->schema([
-                    TextEntry::make('customers_count')
-                        ->label(__('app.customers'))
-                        ->state(fn (Merchant $record): int => $record->customers()->count()),
-                    TextEntry::make('stamps_30')
-                        ->label(__('app.stamps_last_30'))
-                        ->state(fn (Merchant $record): int => (int) $record->cardActivities()
-                            ->where('created_at', '>=', now()->subDays(30))
-                            ->sum('quantity')),
-                    TextEntry::make('last_activity')
-                        ->label(__('app.last_activity'))
-                        ->state(fn (Merchant $record): ?Carbon => $record->cardActivities()->latest('created_at')->value('created_at'))
-                        ->since()
                         ->placeholder('—'),
                 ]),
         ]);
