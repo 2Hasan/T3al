@@ -343,4 +343,10 @@ return [
     'find_a_card_help' => 'اكتب رقم البطاقة أو جوال الزبون، أو امسح الرمز بالكاميرا.',
     'recent_stamps' => 'آخر الأختام',
     'recent_stamps_help' => 'آخر ما انسجل في المحل.',
+    'order_lane_preparing' => 'قيد التحضير',
+    'order_lane_preparing_empty' => 'ما فيه طلبات قيد التحضير.',
+    'order_lane_ready' => 'جاهز للاستلام',
+    'order_lane_ready_empty' => 'ما فيه طلبات جاهزة بانتظار الزبون.',
+    'order_lane_collected' => 'مُستلم اليوم',
+    'order_lane_collected_empty' => 'لسا ما استلم أحد اليوم.',
 ];

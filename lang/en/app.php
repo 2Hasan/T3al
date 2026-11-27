@@ -343,4 +343,10 @@ return [
     'find_a_card_help' => 'Type the card number or the customer phone, or scan the code with the camera.',
     'recent_stamps' => 'Recent stamps',
     'recent_stamps_help' => 'The latest activity at this shop.',
+    'order_lane_preparing' => 'Preparing',
+    'order_lane_preparing_empty' => 'No orders being prepared.',
+    'order_lane_ready' => 'Ready for pickup',
+    'order_lane_ready_empty' => 'No orders waiting for pickup.',
+    'order_lane_collected' => 'Collected today',
+    'order_lane_collected_empty' => 'Nobody has picked up an order today.',
 ];
